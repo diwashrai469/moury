@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "78412237533",
+    "project_id": "moury-app",
+    "storage_bucket": "moury-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78412237533:android:64bb585c120e72d0b3e934",
+        "android_client_info": {
+          "package_name": "com.moury.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78412237533-g0qp7iccs4ekbpivbaff17mua4gnovbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-V7RgaJolctMbrR_ppdvC9DI6q7i9eu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "78412237533-g0qp7iccs4ekbpivbaff17mua4gnovbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
