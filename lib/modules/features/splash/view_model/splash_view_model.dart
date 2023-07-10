@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:moury/modules/data/common/base_model.dart';
+import 'package:moury/modules/data/base_model/base_model.dart';
 
 import '../../../../core/services/local_storage.dart';
 

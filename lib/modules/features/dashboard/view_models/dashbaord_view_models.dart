@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:moury/modules/data/common/base_model.dart';
+import 'package:moury/modules/data/base_model/base_model.dart';
 
 class DashboardViewModel extends BaseModel {
   RxInt selectedIndex = 0.obs;

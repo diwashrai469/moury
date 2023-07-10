@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:moury/modules/features/alluser/view/all_user_view.dart';
+import 'package:moury/modules/features/profile/all_user/view/all_user_view.dart';
 import 'package:moury/modules/features/buzzfeed/view/buzz_feed_view.dart';
-import 'package:moury/modules/features/chats/view/chat_view.dart';
-import 'package:moury/modules/features/community/view/commuity_view.dart';
+import 'package:moury/modules/features/chat_collection/chats/view/chat_view.dart';
+import 'package:moury/modules/features/community_collection/community/view/commuity_view.dart';
 import 'package:moury/modules/features/dashboard/view_models/dashbaord_view_models.dart';
-import 'package:moury/modules/features/user_profile/view/user_profile_view.dart';
+import 'package:moury/modules/features/profile/user_profile/view/user_profile_view.dart';
 import 'package:moury/theme/app_theme.dart';
 
 class DashboardView extends StatelessWidget {

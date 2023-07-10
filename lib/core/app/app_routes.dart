@@ -1,19 +1,19 @@
 import 'package:get/get.dart';
-import 'package:moury/modules/features/chats/view/chat_view.dart';
-import 'package:moury/modules/features/mycommunity/view/my_community_view.dart';
-import 'package:moury/modules/features/single_community/view/single_community_view.dart';
-import 'package:moury/modules/features/single_user_profile/view/single_user_profile_view.dart';
-import 'package:moury/modules/features/singlechat/view/single_chat_view.dart';
+import 'package:moury/modules/features/chat_collection/chats/view/chat_view.dart';
+import 'package:moury/modules/features/community_collection/my_community/view/my_community_view.dart';
+import 'package:moury/modules/features/community_collection/single_community/view/single_community_view.dart';
+import 'package:moury/modules/features/profile/single_user_profile/view/single_user_profile_view.dart';
+import 'package:moury/modules/features/chat_collection/single_chat/view/single_chat_view.dart';
 import 'package:moury/modules/features/splash/view/splash_view.dart';
-import 'package:moury/modules/features/user_profile/view/widgets/edit_user_profile.dart';
+import 'package:moury/modules/features/profile/user_profile/view/widgets/edit_user_profile.dart';
 
-import '../../modules/features/allcommunity/view/all_community_view.dart';
-import '../../modules/features/privatechatlist/view/private_chat_list_view.dart';
+import '../../modules/features/community_collection/all_community/view/all_community_view.dart';
+import '../../modules/features/chat_collection/private_chat_list/view/private_chat_list_view.dart';
 import '../../modules/features/dashboard/view/dashboard_view.dart';
 import '../../modules/features/explore/view/explore_view.dart';
-import '../../modules/features/login/view/login_view.dart';
-import '../../modules/features/register/view/register_view.dart';
-import '../../modules/features/user_profile/view/user_profile_view.dart';
+import '../../modules/features/auth/login/view/login_view.dart';
+import '../../modules/features/auth/register/view/register_view.dart';
+import '../../modules/features/profile/user_profile/view/user_profile_view.dart';
 
 class AppRoutes {
   static final routes = [

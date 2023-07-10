@@ -2,7 +2,7 @@
 
 import '../../../../core/services/network_services.dart';
 import '../../../../core/services/toast_services.dart';
-import '../../../data/common/base_model.dart';
+import '../../../data/base_model/base_model.dart';
 import '../../../data/explore/models/explore_view_response_model.dart';
 import '../../../data/explore/repository/explore_repository.dart';
 
