@@ -43,6 +43,7 @@ class SenderDetails {
   String? senderColor;
   String? senderName;
   String? senderUsername;
+  String? senderProfilePicture;
 
   SenderDetails({this.senderColor, this.senderName, this.senderUsername});
 
@@ -50,6 +51,7 @@ class SenderDetails {
     senderColor = json['sender_color'];
     senderName = json['sender_name'];
     senderUsername = json['sender_username'];
+    senderProfilePicture = json['sender_profile_picture'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +59,7 @@ class SenderDetails {
     data['sender_color'] = senderColor;
     data['sender_name'] = senderName;
     data['sender_username'] = senderUsername;
+    data['sender_profile_picture'] = senderProfilePicture;
     return data;
   }
 }

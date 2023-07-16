@@ -6,17 +6,27 @@ import 'package:flutter/material.dart';
 
 class AppDimens {
   static const mainPagePadding = EdgeInsets.only(
-    right: 25,
-    left: 25,
-    top: 5,
+    right: 10,
+    left: 10,
+    top: 10,
   );
-  static const typeMessageContainerPadding =
-      EdgeInsets.symmetric(horizontal: 10, vertical: 20);
+  static const secondaryPagePaading =
+      EdgeInsets.only(right: 15, top: 5, left: 15);
+
+//circle avatar radius
+  static const ssCircleAvatarRadius = 15.0;
+  static const sCircleAvatarRadius = 17.0;
+  static const mCircleAvatarRadius = 20.0;
+  static const lCircleAvatarRadius = 25.0;
+  static const elCircleAvatarRadius = 30.0;
+  static const boarderAvatarCircleRaduis = 26.0;
 
   static const pagePadding = EdgeInsets.all(20);
   static const pagePaddingX = EdgeInsets.symmetric(horizontal: 20);
   static const pagePaddingY = EdgeInsets.symmetric(vertical: 20);
   static const pagePaddingLarge = EdgeInsets.all(32);
+
+  static const globalCircularRadius = Radius.circular(10.0);
 
   static const cardRadius = 0.0;
   static const cardBorderRadius = BorderRadius.all(Radius.circular(cardRadius));
@@ -45,7 +55,11 @@ class AppDimens {
   static const buttonPaddingLarge =
       EdgeInsets.symmetric(horizontal: 32, vertical: 24);
 
-  static const double bodyFontSize = 15;
+  static const double globaleFontSize = 13;
+  static const double nameFontSize = 15;
+  static const double subFontSize = 12;
+  static const double subsubFontSize = 10;
+  static const double titleFontSize = 16;
 
   static const FontWeight mfontweigt = FontWeight.w600;
 
@@ -53,9 +67,9 @@ class AppDimens {
   static const double headlineFontSizeXXSmall = 12;
   static const double headlineFontSizeXSmall = 14;
   static const double headlineFontSizeSmall = 16;
-  static const double headlineFontSizeOther = 18;
+  static const double headlineFontSizeOther = 22;
   static const double headlineFontSizeMedium = 28;
-  static const double headlineFontSizeLarge = 36;
+  static const double headlineFontSizeLarge = 32;
 
   static const double multiSelectPadding = 8;
 }

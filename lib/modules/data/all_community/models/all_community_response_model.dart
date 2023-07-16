@@ -55,7 +55,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    admin = json['admin'] != null ? new Admin.fromJson(json['admin']) : null;
+    admin = json['admin'] != null ? Admin.fromJson(json['admin']) : null;
     // if (json['moderators'] != null) {
     //   moderators = <Null>[];
     //   json['moderators'].forEach((v) {
@@ -112,10 +112,12 @@ class Admin {
   String? sId;
   String? username;
   String? name;
+  String? profilePicture;
 
-  Admin({this.sId, this.username, this.name});
+  Admin({this.sId, this.username, this.name, this.profilePicture});
 
   Admin.fromJson(Map<String, dynamic> json) {
+    profilePicture = json['profile_picture'];
     sId = json['_id'];
     username = json['username'];
     name = json['name'];
@@ -124,6 +126,7 @@ class Admin {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
+    data['profile_picture'] = profilePicture;
     data['username'] = username;
     data['name'] = name;
     return data;

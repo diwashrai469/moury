@@ -12,7 +12,7 @@ class ExploreRepository extends IExploreRepository {
   @override
   Future<Either<NetworkFailure, ExploreResponseModel>> getExplore() async {
     try {
-      var result = await ExploreService().getExplore();
+      var result = await ExploreService().getExplores();
       return Right(result);
     } on NetworkFailure catch (e) {
       return Left(e);

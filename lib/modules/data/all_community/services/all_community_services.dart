@@ -7,38 +7,19 @@ import '../models/join_community.dart';
 class AllCommunityService {
   Future<JoinCommunityResponseModel> joinCommunity(String communityId) async {
     Dio dio = getDioInstance();
-    try {
-      final response = await dio.post(
-        "community/join",
-         data: {
-          "community_id":communityId
-        }
-      );
+    final response =
+        await dio.post("community/join", data: {"community_id": communityId});
 
-      return JoinCommunityResponseModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw DioException(
-        error: e.message,
-        message: e.response?.data[0]["error"],
-        requestOptions: RequestOptions(path: "community"),
-      );
-    }
+    return JoinCommunityResponseModel.fromJson(response.data);
   }
 
   Future<AllCommunityResponseModel> getAllCommunity() async {
     Dio dio = getDioInstance();
-    try {
-      final response = await dio.get(
-        "community",
-      );
 
-      return AllCommunityResponseModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw DioException(
-        error: e.message,
-        message: e.response?.data[0]["error"],
-        requestOptions: RequestOptions(path: "community"),
-      );
-    }
+    final response = await dio.get(
+      "community",
+    );
+
+    return AllCommunityResponseModel.fromJson(response.data);
   }
 }

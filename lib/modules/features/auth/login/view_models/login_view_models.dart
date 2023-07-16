@@ -35,7 +35,7 @@ class LoginViewModel extends BaseModel {
   }
 
   ILoginRepository userRepository = RegisterRepository();
-  Future<void> loginUser(String username, String password) async {
+  void loginUser(String username, String password) async {
     setLoading(true);
 
     var result =
@@ -51,10 +51,14 @@ class LoginViewModel extends BaseModel {
       (LoginResponseModel data) async {
         await LocalStorageService()
             .write(LocalStorageKeys.accessToken, data.accessToken);
-        Get.offAndToNamed("/dashboard");
+           
+
+        Get.offAndToNamed("/splash");
         ToastService().s(data.message);
       },
     );
     setLoading(false);
   }
+
+  
 }

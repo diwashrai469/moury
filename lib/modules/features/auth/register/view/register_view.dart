@@ -22,7 +22,7 @@ class RegisterView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: AppDimens.mainPagePadding,
+          padding: AppDimens.secondaryPagePaading,
           child: Form(
             key: formkey,
             child: Center(
@@ -43,7 +43,7 @@ class RegisterView extends StatelessWidget {
                     KTextFormField(
                       keyboardType: TextInputType.visiblePassword,
                       controller: fullnameController,
-                      validator: controller.fullName,
+                      validator: controller.fullNameValidation,
                       hint: "Enter your fullname.",
                       label: "Full Name",
                     ),

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
+import 'package:moury/modules/data/register/models/check_username_response_model.dart';
 import '../../../../../core/services/local_storage.dart';
 import '../../../../../core/services/network_services.dart';
 import '../../../../../core/services/toast_services.dart';
@@ -8,8 +11,9 @@ import '../../../../data/register/repository/register_repository.dart';
 
 class RegisterViewModel extends BaseModel {
   final IRegisterRepository _userRepository = RegisterRepository();
+  RxString apiValidationStatus = ''.obs;
 
-  String? fullName(String? fullname) {
+  String? fullNameValidation(String? fullname) {
     if (fullname == null || fullname.isEmpty) {
       return "Fullname is required!";
     }
@@ -17,9 +21,11 @@ class RegisterViewModel extends BaseModel {
     return null;
   }
 
+  RxBool validationReady = false.obs; // Add this line
+
   String? userNameValidator(String? username) {
-    if (username == null || username.isEmpty) {
-      return "User name is required!";
+    if (username?.isEmpty == true) {
+      return "Username cannot be empty";
     }
     return null;
   }
@@ -78,5 +84,37 @@ class RegisterViewModel extends BaseModel {
     });
 
     setLoading(false);
+  }
+
+  Future<bool> checkUsername({
+    required String username,
+  }) async {
+    bool isOperationSuccessful = false;
+    validationReady.value = false; // Add this line
+    setLoading(true);
+
+    var result = await _userRepository.checkUsername(
+      username: username,
+    );
+
+    result.fold(
+      (NetworkFailure error) {
+        apiValidationStatus.value = error.message ?? '';
+        update();
+        ToastService().e(error.message.toString());
+      },
+      (CheckUserResponseModel data) {
+        // Assuming there's a specific 'message' in CheckUserResponseModel to indicate success
+
+        isOperationSuccessful = true;
+
+        ToastService().s(data.message.toString());
+      },
+    );
+
+    setLoading(false);
+    update();
+
+    return isOperationSuccessful;
   }
 }

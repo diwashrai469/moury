@@ -1,12 +1,14 @@
 class UserConfigResponseModel {
   String? status;
   Data? data;
+  String? accessToken;
 
   UserConfigResponseModel({this.status, this.data});
 
   UserConfigResponseModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    accessToken = json['accessToken'];
   }
 
   Map<String, dynamic> toJson() {
@@ -15,12 +17,12 @@ class UserConfigResponseModel {
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
+    data['accessToken'] = accessToken;
     return data;
   }
 }
 
 class Data {
-  
   int? following;
   String? sId;
   String? username;
@@ -37,8 +39,7 @@ class Data {
   int? buzzs;
 
   Data(
-      {
-      this.following,
+      {this.following,
       this.sId,
       this.username,
       this.email,
@@ -54,7 +55,6 @@ class Data {
       this.buzzs});
 
   Data.fromJson(Map<String, dynamic> json) {
-  
     following = json['following'];
     sId = json['_id'];
     username = json['username'];
@@ -73,7 +73,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-  
+
     data['following'] = following;
     data['_id'] = sId;
     data['username'] = username;

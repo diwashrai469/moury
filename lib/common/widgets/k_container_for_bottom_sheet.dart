@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moury/theme/app_theme.dart';
 
 Widget kContainerForBottomSheet() {
   return Center(
@@ -6,7 +7,7 @@ Widget kContainerForBottomSheet() {
       height: 6,
       width: 70,
       decoration: const BoxDecoration(
-        color: Colors.black,
+        color: secondaryColor,
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
     ),

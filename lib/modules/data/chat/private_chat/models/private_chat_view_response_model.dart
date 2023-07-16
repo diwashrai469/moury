@@ -1,34 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class PrivateChatListResponseModel {
   String? message;
   ReceiverDetails? receiverDetails;
+  String? receiverId;
+  bool? seen;
   SenderDetails? senderDetails;
   String? senderId;
-  String? receiverId;
   int? time;
 
-  PrivateChatListResponseModel({
-    this.message,
-    this.receiverDetails,
-    this.senderDetails,
-    this.senderId,
-    this.receiverId,
-    this.time,
-  });
+  PrivateChatListResponseModel(
+      {this.message,
+      this.receiverDetails,
+      this.receiverId,
+      this.seen,
+      this.senderDetails,
+      this.senderId,
+      this.time});
 
   PrivateChatListResponseModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     receiverDetails = json['receiver_details'] != null
         ? ReceiverDetails.fromJson(json['receiver_details'])
         : null;
+    receiverId = json['receiver_id'];
+    seen = json['seen'];
     senderDetails = json['sender_details'] != null
         ? SenderDetails.fromJson(json['sender_details'])
         : null;
     senderId = json['sender_id'];
-    receiverId = json['receiver_id'];
-    final dynamic jsonTime = json['time'];
-    time = jsonTime is Timestamp ? jsonTime.seconds : jsonTime;
+    time = json['time'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,61 +36,59 @@ class PrivateChatListResponseModel {
     if (receiverDetails != null) {
       data['receiver_details'] = receiverDetails!.toJson();
     }
+    data['receiver_id'] = receiverId;
+    data['seen'] = seen;
     if (senderDetails != null) {
       data['sender_details'] = senderDetails!.toJson();
     }
     data['sender_id'] = senderId;
-    data['receiver_id'] = receiverId;
     data['time'] = time;
-
     return data;
   }
 }
 
 class ReceiverDetails {
   String? receiverName;
+  String? receiverProfilePicture;
   String? receiverUsername;
-  bool? seen;
 
-  ReceiverDetails({
-    this.receiverName,
-    this.receiverUsername,
-    this.seen,
-  });
+  ReceiverDetails(
+      {this.receiverName, this.receiverProfilePicture, this.receiverUsername});
 
   ReceiverDetails.fromJson(Map<String, dynamic> json) {
     receiverName = json['receiver_name'];
+    receiverProfilePicture = json['receiver_profile_picture'];
     receiverUsername = json['receiver_username'];
-    seen = json['seen'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['receiver_name'] = receiverName;
+    data['receiver_profile_picture'] = receiverProfilePicture;
     data['receiver_username'] = receiverUsername;
-    data['seen'] = seen;
     return data;
   }
 }
 
 class SenderDetails {
   String? senderName;
-  String? senderUsername;
   String? senderProfilePicture;
+  String? senderUsername;
 
-  SenderDetails({this.senderName, this.senderUsername, this.senderProfilePicture});
+  SenderDetails(
+      {this.senderName, this.senderProfilePicture, this.senderUsername});
 
   SenderDetails.fromJson(Map<String, dynamic> json) {
     senderName = json['sender_name'];
-    senderUsername = json['sender_username'];
     senderProfilePicture = json['sender_profile_picture'];
+    senderUsername = json['sender_username'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['sender_name'] = senderName;
-    data['sender_username'] = senderUsername;
     data['sender_profile_picture'] = senderProfilePicture;
+    data['sender_username'] = senderUsername;
     return data;
   }
 }

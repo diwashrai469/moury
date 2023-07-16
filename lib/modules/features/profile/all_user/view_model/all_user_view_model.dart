@@ -22,8 +22,8 @@ class AllUserViewModel extends BaseModel {
         }
       },
       (AllUsersResponseModel data) async {
-        // final filterData=data.data.where((element) => element.sId !=)
         allUsersResponseData = data;
+        print(data.data?.length);
         update();
       },
     );
@@ -45,8 +45,4 @@ class AllUserViewModel extends BaseModel {
       },
     );
   }
-
- 
-  }
-
-
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moury/theme/app_theme.dart';
 
 class KListtile extends StatelessWidget {
   final IconData? icon;
@@ -23,10 +24,10 @@ class KListtile extends StatelessWidget {
           onPressed: onKeyPressed,
           child: Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600, fontSize: 15),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: secondaryColor),
           ),
         ),
       ),

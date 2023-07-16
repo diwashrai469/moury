@@ -48,6 +48,8 @@ dependencies:
   jwt_decoder: ^2.0.1
   intl: ^0.18.1
   image_cropper: ^5.0.0
+  shimmer: ^3.0.0
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -87,9 +89,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Belanosima
+    - family: Poppins
       fonts:
-        - asset: fonts/Belanosima-Regular.ttf
+        - asset: fonts/Poppins-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

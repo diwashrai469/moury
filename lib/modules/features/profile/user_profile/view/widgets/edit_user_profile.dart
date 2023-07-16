@@ -7,6 +7,7 @@ import 'package:moury/common/widgets/k_container_for_bottom_sheet.dart';
 import 'package:moury/common/widgets/k_listile.dart';
 import 'package:moury/common/widgets/k_textformfield.dart';
 import 'package:moury/modules/features/profile/user_profile/view_models/user_profile_view_model.dart';
+import 'package:moury/theme/app_theme.dart';
 
 class EditUserProfileView extends StatefulWidget {
   const EditUserProfileView({Key? key}) : super(key: key);
@@ -22,8 +23,13 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
   Widget build(BuildContext context) {
     final controller = Get.put(UserProfileviewModel());
 
-    void showBottomSheet() {
+    void kshowBottomSheet() {
       Get.bottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: AppDimens.globalCircularRadius,
+          ),
+        ),
         backgroundColor: Colors.white,
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -49,9 +55,9 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
                   text: "Gallery",
                   icon: Icons.image,
                   onKeyPressed: () {
+                    Get.back();
                     controller.pickImage(
                         ImageSource.gallery, nameController.text);
-                    Get.back();
                   },
                 ),
               )
@@ -61,7 +67,6 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
       );
     }
 
-
     return GetBuilder<UserProfileviewModel>(initState: (state) async {
       await controller.getUserConfig();
     }, builder: (controller) {
@@ -69,12 +74,12 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
       nameController.text = userConfigData?.name ?? '';
 
       return Scaffold(
+        backgroundColor: secondaryColor,
         appBar: AppBar(
           title: Text(
             "Edit profile",
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.transparent,
           elevation: 0,
           actions: [
@@ -82,8 +87,11 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
               padding: const EdgeInsets.only(right: 40.0, top: 20),
               child: InkWell(
                 onTap: () async {
-                  await controller.editUser(controller.uploadedImageUrl,
-                      username: nameController.text);
+                  if (controller.uploadedImageUrl.isNotEmpty) {
+                    await controller.editUser(controller.uploadedImageUrl,
+                        username: nameController.text);
+                  }
+
                   await controller.getUserConfig();
                   Get.back();
                 },
@@ -95,35 +103,57 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
             ),
           ],
         ),
-        body: controller.isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Padding(
-                padding: AppDimens.mainPagePadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        showBottomSheet();
-                      },
-                      child: CircleAvatar(
-                        radius: 45,
-                        backgroundImage: NetworkImage(
-                            userConfigData!.profilePicture ?? 'N/a'),
-                      ),
+        body: Padding(
+          padding: AppDimens.mainPagePadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundImage:
+                          NetworkImage(userConfigData!.profilePicture ?? 'N/a'),
                     ),
-                    mHeightSpan,
-                    KTextFormField(
-                      label: "Name",
-                      controller: nameController,
-                      hint: "Enter your name",
-                    ),
-                    mHeightSpan,
-                  ],
-                ),
+                  ),
+                  Positioned(
+                      bottom: 2,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () => kshowBottomSheet(),
+                        child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 17,
+                            child: controller.isLoading
+                                ? const SizedBox(
+                                    height: 10,
+                                    width: 10,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    ),
+                                  )
+                                : const Icon(
+                                    Icons.camera_alt_rounded,
+                                    color: Colors.black,
+                                    size: 19,
+                                  )),
+                      ))
+                ],
               ),
+              mHeightSpan,
+              KTextFormField(
+                label: "Name",
+                controller: nameController,
+                hint: "Enter your name",
+              ),
+              mHeightSpan,
+            ],
+          ),
+        ),
       );
     });
   }

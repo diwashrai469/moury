@@ -95,10 +95,10 @@ class _KTextFormFieldState extends State<KTextFormField> {
                       Text.rich(
                         TextSpan(
                           text: widget.label,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.w600),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                           children: <InlineSpan>[
                             TextSpan(
                               text: '* ',
@@ -136,7 +136,7 @@ class _KTextFormFieldState extends State<KTextFormField> {
           style: Theme.of(context)
               .textTheme
               .bodyMedium
-              ?.copyWith(color: Colors.black),
+              ?.copyWith(color: Colors.white),
           decoration: InputDecoration(
             hintText: widget.hint,
             hintStyle: Theme.of(context)
@@ -192,19 +192,19 @@ class _KTextFormFieldState extends State<KTextFormField> {
                 : null,
             errorStyle: TextStyle(height: 0, fontSize: 0, color: errorColor),
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(color: primaryColor)),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(15),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(15.0),
               borderSide: const BorderSide(
                 color: darkGrey,
               ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(15.0),
               borderSide: BorderSide(
                 color: errorColor,
               ),

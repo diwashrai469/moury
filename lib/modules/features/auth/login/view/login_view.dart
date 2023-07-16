@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:moury/theme/app_theme.dart';
+
 import '../../../../../common/constant/app_dimens.dart';
+import '../../../../../common/constant/app_image.dart';
 import '../../../../../common/constant/ui_helpers.dart';
 import '../../../../../common/widgets/k_button.dart';
 import '../../../../../common/widgets/k_textformfield.dart';
@@ -18,9 +21,10 @@ class LoginView extends StatelessWidget {
     final passwordController = TextEditingController();
 
     return Scaffold(
+      backgroundColor: secondaryColor,
       body: SafeArea(
         child: Padding(
-          padding: AppDimens.mainPagePadding,
+          padding: AppDimens.secondaryPagePaading,
           child: Form(
             key: formkey,
             child: Center(
@@ -29,13 +33,10 @@ class LoginView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "moury",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 35,
-                            color: const Color.fromRGBO(238, 146, 9, 1),
-                          ),
+                    SvgPicture.asset(
+                      AppImage.mouryText,
+                      height: 40,
+                      width: 150,
                     ),
                     elHeightSpan,
                     KTextFormField(
@@ -59,11 +60,11 @@ class LoginView extends StatelessWidget {
                       () => KButton(
                         size: ButtonSize.medium,
                         isBusy: controller.isLoading,
-                        onPressed: () async {
+                        onPressed: () {
                           FocusManager.instance.primaryFocus?.unfocus();
                           if (formkey.currentState!.validate()) {
-                            await controller.loginUser(
-                                userNameController.text, passwordController.text);
+                            controller.loginUser(userNameController.text,
+                                passwordController.text);
                           }
                         },
                         child: const Text("Login"),
@@ -72,7 +73,7 @@ class LoginView extends StatelessWidget {
                     lHeightSpan,
                     InkWell(
                       onTap: () => Get.toNamed(
-                        "/register",
+                        "/signup",
                       ),
                       child: RichText(
                         text: TextSpan(
@@ -97,7 +98,7 @@ class LoginView extends StatelessWidget {
                         child: Row(
                           children: [
                             SvgPicture.asset(
-                              "asset/googlesvg.svg",
+                              AppImage.googleSvg,
                               height: 20,
                             ),
                             mWidthSpan,

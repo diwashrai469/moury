@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/state_manager.dart';
 import 'package:moury/modules/data/base_model/base_model.dart';
-import 'package:moury/modules/data/my_community/model/community_reponse_firebase_model.dart';
+import 'package:moury/modules/data/chat/my_community/model/community_reponse_firebase_model.dart';
 import '../../../../../core/services/network_services.dart';
 import '../../../../../core/services/toast_services.dart';
-import '../../../../data/my_community/model/my_community_response_model.dart';
-import '../../../../data/my_community/repository/my_community_repository.dart';
+import '../../../../data/chat/my_community/model/my_community_response_model.dart';
+import '../../../../data/chat/my_community/repository/my_community_repository.dart';
 
 class MyCommunityViewModel extends BaseModel {
   IMyCommunityRepository communityRepo = MyCommunityRepository();
@@ -13,6 +13,8 @@ class MyCommunityViewModel extends BaseModel {
   MyCommunityResponseModel? communityData;
 
   final firestoreInstance = FirebaseFirestore.instance;
+
+  
 
   RxList<CommunityChatModelOfFirebase> chatList =
       <CommunityChatModelOfFirebase>[].obs;
@@ -34,10 +36,10 @@ class MyCommunityViewModel extends BaseModel {
     });
   }
 
-  Future<void> getCommunity() async {
+  Future<void> getMyCommunity() async {
     setLoading(true);
 
-    var result = await communityRepo.getCommunity();
+    var result = await communityRepo.getMyCommunity();
     result.fold(
       (NetworkFailure error) {
         ToastService().e("An unknown error occurred");

@@ -30,8 +30,19 @@ class Data {
   String? name;
   int? level;
   int? streak;
+  String? profilePicture;
+  int? followers;
+  int? following;
 
-  Data({this.sId, this.username, this.name, this.level, this.streak});
+  Data(
+      {this.sId,
+      this.username,
+      this.name,
+      this.level,
+      this.streak,
+      this.profilePicture,
+      this.followers,
+      this.following});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -39,6 +50,9 @@ class Data {
     name = json['name'];
     level = json['level'];
     streak = json['streak'];
+    profilePicture = json['profile_picture'];
+    followers = json['followers'];
+    following = json['following'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +62,9 @@ class Data {
     data['name'] = name;
     data['level'] = level;
     data['streak'] = streak;
+    data['profile_picture'] = profilePicture;
+    data['followers'] = followers;
+    data['following'] = following;
     return data;
   }
 }

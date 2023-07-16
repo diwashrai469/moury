@@ -1,7 +1,7 @@
 import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,8 +29,8 @@ class UserProfileviewModel extends BaseModel {
       if (selectedImage != null) {
         final croppedFile = await cropImage(selectedImage);
         if (croppedFile != null) {
-          var result = await compressFile(File(croppedFile.path));
-          image.value = XFile(result.path);
+          // var result = await compressFile(File(croppedFile.path));
+          image.value = XFile(croppedFile.path);
           if (image.value.path.isNotEmpty) {
             FirebaseStorage storage = FirebaseStorage.instance;
             Reference ref = storage.ref().child("upload${DateTime.now()}");
@@ -62,6 +62,7 @@ class UserProfileviewModel extends BaseModel {
     }
     try {
       var croppedFile = await ImageCropper().cropImage(
+        compressQuality: 100,
         sourcePath: file.path,
         aspectRatioPresets: Platform.isAndroid
             ? [
@@ -93,16 +94,16 @@ class UserProfileviewModel extends BaseModel {
     return null;
   }
 
-  Future<XFile> compressFile(File file) async {
-    final dir = file.parent;
-    final targetPath = "${dir.path}/temp_compressed.jpg";
-    var result = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path,
-      targetPath,
-      quality: 90,
-    );
-    return result!;
-  }
+  // Future<XFile> compressFile(File file) async {
+  //   final dir = file.parent;
+  //   final targetPath = "${dir.path}/temp_compressed.jpg";
+  //   var result = await FlutterImageCompress.compressAndGetFile(
+  //     file.absolute.path,
+  //     targetPath,
+  //     quality: 100,
+  //   );
+  //   return result!;
+  // }
 
   Future<void> editUser(String profilePicture, {String? username}) async {
     var result = await userRepository.editUserProfile(
@@ -135,6 +136,8 @@ class UserProfileviewModel extends BaseModel {
       },
       (UserConfigResponseModel data) async {
         userConfigData = data;
+        // LocalStorageService()
+        //     .write(LocalStorageKeys.accessToken, data.accessToken);
         update();
       },
     );

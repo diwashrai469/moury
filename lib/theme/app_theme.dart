@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../common/constant/app_dimens.dart';
 
-const fontFamily = "Belanosima";
+const fontFamily = "Poppins";
 const avatarBackgroundColor = Color.fromRGBO(91, 91, 91, 91);
+final boarderAvatarBackgroundColor = Colors.grey.shade300;
 
+const chatMessageTextColor = Color.fromARGB(255, 87, 83, 83);
 const disabledColor = Color(0xFFbcbcbc);
 const primaryColor = Color.fromARGB(255, 233, 140, 0);
 const lightPrimaryCplor = Color(0xFFa0a6ff);
-const secondaryColor = Color(0xFF282724);
+const secondaryColor = Color(0xFF333333);
 const shutleGrey = Color(0xFFf4f4f4);
 final errorColor = Colors.red.shade300;
 const successColor = Color(0xFF00da9f);
@@ -58,9 +60,10 @@ abstract class AppThemes {
         )
         .copyWith(
           bodyMedium: ThemeData.light().textTheme.bodyMedium?.copyWith(
-              color: Colors.black,
-              fontSize: AppDimens.bodyFontSize,
+              color: Colors.white,
+              fontSize: AppDimens.globaleFontSize,
               fontFamily: fontFamily,
+              fontWeight: FontWeight.w600,
               letterSpacing: 0.9),
         ),
     // inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
@@ -72,6 +75,7 @@ abstract class AppThemes {
     //       focusedErrorBorder: errorBorder,
     //       iconColor: darkGrey,
     //     ),
+
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: const Color(0xFFFAFAFA),
     cardTheme: ThemeData.light().cardTheme.copyWith(
