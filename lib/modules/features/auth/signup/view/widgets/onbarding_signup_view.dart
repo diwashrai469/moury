@@ -13,7 +13,7 @@ import '../../../register/view_models/register_view_models.dart';
 AppBar appbar = AppBar(
   backgroundColor: Colors.transparent,
   elevation: 0,
-  iconTheme: const IconThemeData(color: Colors.black),
+  iconTheme: const IconThemeData(color: Colors.white),
 );
 
 class AskUserFullName extends StatelessWidget {
@@ -52,7 +52,7 @@ class AskUserFullName extends StatelessWidget {
               KTextFormField(
                 validator: controller.fullNameValidation,
                 controller: fullnameController,
-                label: " Fullname",
+                label: " Full name",
                 hint: "Enter your full name",
               ),
               mHeightSpan,

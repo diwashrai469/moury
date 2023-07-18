@@ -9,6 +9,18 @@ import 'package:moury/modules/data/all_users/repository/get_all_user_repository.
 import 'package:moury/modules/data/base_model/base_model.dart';
 
 class SingleUserProfileViewModel extends BaseModel {
+  String userId;
+  SingleUserProfileViewModel({
+    required this.userId,
+  });
+
+  @override
+  void onInit() {
+    getSingleUser(userId);
+    checkFollow(userId);
+    super.onInit();
+  }
+
   AllUsersResponseModel? userResponseModel;
   FollowResponseModel? followResponseData;
   IGetAllUsersRepository singleUserRepo = GetAllUserRepository();
@@ -32,7 +44,7 @@ class SingleUserProfileViewModel extends BaseModel {
   //   setLoading(false);
   // }
 
-  Future<void> getSingleUser(String singleUserId) async {
+  getSingleUser(String singleUserId) async {
     setLoading(true);
     var result = await singleUserRepo.getSingleUser(singleUserId);
     result.fold(
@@ -51,7 +63,7 @@ class SingleUserProfileViewModel extends BaseModel {
     setLoading(false);
   }
 
-  Future<void> checkFollow(String singleUserId) async {
+  checkFollow(String singleUserId) async {
     setLoading(true);
     var result = await singleUserRepo.checkFollow(singleUserId);
     result.fold(
@@ -70,7 +82,7 @@ class SingleUserProfileViewModel extends BaseModel {
     setLoading(false);
   }
 
-  Future<void> followUser(String singleUserId) async {
+  followUser(String singleUserId) async {
     setLoading(true);
     var result = await singleUserRepo.followUser(singleUserId);
     result.fold(
@@ -90,7 +102,7 @@ class SingleUserProfileViewModel extends BaseModel {
     setLoading(false);
   }
 
-  Future<void> unFollowUser(String singleUserId) async {
+  unFollowUser(String singleUserId) async {
     setLoading(true);
     var result = await singleUserRepo.unfollowUser(singleUserId);
     result.fold(
@@ -110,7 +122,7 @@ class SingleUserProfileViewModel extends BaseModel {
     setLoading(false);
   }
 
-  KButton checkStatus(String status, String userid, String? userName) {
+  KButton checkStatus(String status, String userid, String? userName,String? userImage) {
     if (followResponseData?.status == "unknown") {
       return KButton(
         child: const Text("Follow"),
@@ -122,21 +134,22 @@ class SingleUserProfileViewModel extends BaseModel {
     }
     if (followResponseData?.status == "friends") {
       return KButton(
-          child: const Text("Message"),
-          onPressed: () {
-            Get.toNamed(
-              '/single-chat',
-              arguments: {'userId': userid, 'username': userName},
-            );
-          });
+        child: const Text("Message"),
+        onPressed: () {
+          Get.toNamed(
+            '/single-chat',
+            arguments: {'userId': userid, 'username': userName,"userImage":userImage},
+          );
+        },
+      );
     }
 
     if (followResponseData?.status == "only_me") {
       return KButton(
         child: const Text("Un-Follow"),
         onPressed: () async {
-         await unFollowUser(userid);
-         await checkFollow(userid);
+          await unFollowUser(userid);
+          await checkFollow(userid);
         },
       );
     }

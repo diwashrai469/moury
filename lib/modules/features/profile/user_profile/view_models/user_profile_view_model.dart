@@ -14,6 +14,12 @@ import '../../../../data/user_profile/models/user_edit_reponse_model.dart';
 import '../../../../data/user_profile/repository/user_repository.dart';
 
 class UserProfileviewModel extends BaseModel {
+  @override
+  void onInit() {
+    getUserConfig();
+    super.onInit();
+  }
+
   var image = XFile('').obs;
   final ImagePicker _picker = ImagePicker();
   var uploadedImageUrl = '';
@@ -62,7 +68,6 @@ class UserProfileviewModel extends BaseModel {
     }
     try {
       var croppedFile = await ImageCropper().cropImage(
-        compressQuality: 100,
         sourcePath: file.path,
         aspectRatioPresets: Platform.isAndroid
             ? [

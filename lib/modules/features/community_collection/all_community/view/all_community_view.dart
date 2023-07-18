@@ -10,7 +10,7 @@ class AllCommunityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final community = Get.put(AllCommunityViewModel());
+    final communityModel = Get.put(AllCommunityViewModel());
     return Scaffold(
       backgroundColor: secondaryColor,
       appBar: AppBar(
@@ -19,7 +19,7 @@ class AllCommunityView extends StatelessWidget {
       ),
       body: GetBuilder<AllCommunityViewModel>(
         initState: (state) {
-          community.getAllCommunity();
+          communityModel.getAllCommunity();
         },
         builder: (controller) {
           return controller.isLoading
@@ -46,6 +46,7 @@ class AllCommunityView extends StatelessWidget {
                       mHeightSpan,
                       Expanded(
                         child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
                           itemCount:
                               controller.getAllCommunityData?.data?.length,
                           itemBuilder: (context, index) {
@@ -54,6 +55,8 @@ class AllCommunityView extends StatelessWidget {
 
                             return InkWell(
                               onTap: () {
+                                print(
+                                    "from allcommunity ${getCommunityList?.sId ?? ''}");
                                 Get.toNamed(
                                   "/single-community",
                                   arguments: {
@@ -62,12 +65,6 @@ class AllCommunityView extends StatelessWidget {
                                         getCommunityList?.name ?? '',
                                     "communityColor":
                                         const Color.fromARGB(255, 85, 110, 122),
-                                    "communityDescription":
-                                        getCommunityList?.description ??
-                                            'No description',
-                                    "communityMembers":
-                                        getCommunityList?.members ??
-                                            'No description',
                                   },
                                 );
                               },
@@ -115,22 +112,6 @@ class AllCommunityView extends StatelessWidget {
                                             .bodyMedium
                                             ?.copyWith(color: Colors.grey),
                                       ),
-                                      // trailing: ElevatedButton(
-                                      //   style: ElevatedButton.styleFrom(
-                                      //     elevation: 1,
-                                      //     backgroundColor: const Color(0xFF3868A7),
-                                      //     shape: RoundedRectangleBorder(
-                                      //       borderRadius: BorderRadius.circular(
-                                      //           AppDimens.sboarderRadisCircular),
-                                      //     ),
-                                      //   ),
-                                      //   child: const Text("Join"),
-                                      //   onPressed: () {
-                                      //     controller.joinCommunity(
-                                      //         getCommunityList?.sId ?? '',
-                                      //         getCommunityList?.name ?? '');
-                                      //   },
-                                      // ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(

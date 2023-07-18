@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:moury/common/constant/ui_helpers.dart';
 import 'package:moury/theme/app_theme.dart';
 
-import '../constant/app_dimens.dart';
 import 'k_material_button.dart';
 
-Future<void> kDialogBox(BuildContext context,
-    {String? message,
-    final void Function()? onKeyPressed,
-    final String? heading,
-    required double doubleHeight}) async {
+Future<void> kDialogBox(
+  BuildContext context, {
+  String? message,
+  final void Function()? onKeyPressed,
+  final String? heading,
+}) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -33,7 +33,7 @@ Future<void> kDialogBox(BuildContext context,
                             fontWeight: FontWeight.w900,
                           ),
                     ),
-                  mHeightSpan,
+                  lHeightSpan,
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                     child: Text(
@@ -41,10 +41,10 @@ Future<void> kDialogBox(BuildContext context,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
-                          ?.copyWith(fontSize: 14, color: disabledColor),
+                          ?.copyWith(fontSize: 14, color: secondaryColor),
                     ),
                   ),
-                  mHeightSpan,
+                  lHeightSpan,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -62,7 +62,8 @@ Future<void> kDialogBox(BuildContext context,
                           onKeyPressed: onKeyPressed,
                           text: "Confirm")
                     ],
-                  )
+                  ),
+                  sHeightSpan,
                 ],
               ),
             ),

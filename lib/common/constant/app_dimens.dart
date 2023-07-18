@@ -6,14 +6,15 @@ import 'package:flutter/material.dart';
 
 class AppDimens {
   static const mainPagePadding = EdgeInsets.only(
-    right: 10,
-    left: 10,
+    right: 8,
+    left: 8,
     top: 10,
   );
   static const secondaryPagePaading =
       EdgeInsets.only(right: 15, top: 5, left: 15);
 
 //circle avatar radius
+  static const sssCircleAvatarRadius = 12.0;
   static const ssCircleAvatarRadius = 15.0;
   static const sCircleAvatarRadius = 17.0;
   static const mCircleAvatarRadius = 20.0;
@@ -59,6 +60,8 @@ class AppDimens {
   static const double nameFontSize = 15;
   static const double subFontSize = 12;
   static const double subsubFontSize = 10;
+  static const double subsubsubFontSize = 8;
+
   static const double titleFontSize = 16;
 
   static const FontWeight mfontweigt = FontWeight.w600;

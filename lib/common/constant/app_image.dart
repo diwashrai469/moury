@@ -3,6 +3,7 @@ class AppImage {
   static const String googleSvg = 'asset/googlesvg.svg';
   static const String splashImage = 'asset/mouryApp.svg';
   static const String mouryText = 'asset/mourytext.svg';
+   static const String onboardingImage = 'asset/onboarding.json';
 
   static const double llogoHeight = 130;
   static const double mlogoHeight = 70;

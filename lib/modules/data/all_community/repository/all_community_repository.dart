@@ -8,6 +8,8 @@ abstract class IAllCommunityRepository {
   Future<Either<NetworkFailure, AllCommunityResponseModel>> getAllCommunity();
   Future<Either<NetworkFailure, JoinCommunityResponseModel>> joinCommunity(
       String communityId);
+  Future<Either<NetworkFailure, AllCommunityResponseModel>> getSingleCommunity(
+      String id);
 }
 
 class AllCommunityRepository extends IAllCommunityRepository {
@@ -28,6 +30,18 @@ class AllCommunityRepository extends IAllCommunityRepository {
       String communityId) async {
     try {
       var result = await AllCommunityService().joinCommunity(communityId);
+
+      return Right(result);
+    } on NetworkFailure catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<NetworkFailure, AllCommunityResponseModel>> getSingleCommunity(
+      String id) async {
+    try {
+      var result = await AllCommunityService().getSingleCommunity(id);
 
       return Right(result);
     } on NetworkFailure catch (e) {

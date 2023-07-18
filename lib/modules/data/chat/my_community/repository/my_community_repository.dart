@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:moury/modules/data/chat/my_community/model/create_community_view_model.dart';
 import 'package:moury/modules/data/chat/my_community/model/leave_community_response_model.dart';
 import 'package:moury/modules/data/chat/my_community/services/my_community_services.dart';
 
@@ -12,6 +13,9 @@ abstract class IMyCommunityRepository {
   Future<Either<NetworkFailure, LeaveCommunityResponseModel>> leaveCommmunity({
     required String id,
   });
+  Future<Either<NetworkFailure, CreateCommunityViewModel>> createCommunity({
+    required String name, required String description
+  });
 }
 
 class MyCommunityRepository extends IMyCommunityRepository {
@@ -19,7 +23,6 @@ class MyCommunityRepository extends IMyCommunityRepository {
   Future<Either<NetworkFailure, MyCommunityResponseModel>>
       getMyCommunity() async {
     try {
-      print("called");
       var result = await MyCommunityService().getMyCommunity();
 
       return Right(result);
@@ -47,6 +50,19 @@ class MyCommunityRepository extends IMyCommunityRepository {
   }) async {
     try {
       var result = await MyCommunityService().leaveMyCommunity(id);
+
+      return Right(result);
+    } on NetworkFailure catch (e) {
+      return left(e);
+    }
+  }
+
+   @override
+  Future<Either<NetworkFailure,CreateCommunityViewModel>> createCommunity({
+    required String name,required String description
+  }) async {
+    try {
+      var result = await MyCommunityService().createCommunity(name,description);
 
       return Right(result);
     } on NetworkFailure catch (e) {

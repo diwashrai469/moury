@@ -22,4 +22,14 @@ class AllCommunityService {
 
     return AllCommunityResponseModel.fromJson(response.data);
   }
+
+   Future<AllCommunityResponseModel> getSingleCommunity(String sid) async {
+    Dio dio = getDioInstance();
+
+    final response = await dio.get(
+      "community?_id=$sid",
+    );
+
+    return AllCommunityResponseModel.fromJson(response.data);
+  }
 }

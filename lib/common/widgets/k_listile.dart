@@ -4,10 +4,11 @@ import 'package:moury/theme/app_theme.dart';
 class KListtile extends StatelessWidget {
   final IconData? icon;
   final String text;
+  final Widget? subtitile;
   final void Function()? onKeyPressed;
 
   const KListtile(
-      {super.key, this.icon, required this.text, this.onKeyPressed});
+      {super.key, this.icon,this.subtitile, required this.text, this.onKeyPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class KListtile extends StatelessWidget {
                 color: secondaryColor),
           ),
         ),
+        subtitle: subtitile,
       ),
     );
   }

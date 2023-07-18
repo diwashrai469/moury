@@ -8,8 +8,16 @@ import 'package:moury/modules/data/chat/my_community/model/leave_community_respo
 import 'package:moury/modules/data/chat/my_community/model/my_community_response_model.dart';
 import 'package:moury/modules/data/chat/my_community/repository/my_community_repository.dart';
 import '../../../../../core/services/network_services.dart';
+import '../../../../data/all_community/models/all_community_response_model.dart';
+import '../../../../data/all_community/repository/all_community_repository.dart';
 
 class SingleCommunityChatViewModel extends BaseModel {
+  @override
+  void onInit() {
+    getAllCommunity();
+    super.onInit();
+  }
+
   final firestoreInstance = FirebaseFirestore.instance;
   String? userId = '';
 
@@ -17,6 +25,24 @@ class SingleCommunityChatViewModel extends BaseModel {
       <CommunityChatModelOfFirebase>[].obs;
 
   IMyCommunityRepository myCommunityRepository = MyCommunityRepository();
+  IAllCommunityRepository allCommunityRepo = AllCommunityRepository();
+
+  AllCommunityResponseModel? getAllCommunityData;
+
+  getAllCommunity() async {
+    setLoading(true);
+
+    var result = await allCommunityRepo.getAllCommunity();
+    result.fold(
+      (NetworkFailure error) {
+        ToastService().e("An unknown error occurred");
+      },
+      (AllCommunityResponseModel data) {
+        getAllCommunityData = data;
+        update();
+      },
+    );
+  }
 
   void sendMessage({required String id, required String message}) async {
     setLoading(true);
@@ -52,7 +78,6 @@ class SingleCommunityChatViewModel extends BaseModel {
       (LeaveCommunityResponseModel data) {
         ToastService().s(data.data ?? "Sucess");
 
-     
         // myCommunityRepository.getMyCommunity();
       },
     );
@@ -68,7 +93,6 @@ class SingleCommunityChatViewModel extends BaseModel {
           .snapshots()
           .listen((event) {
         if (event.docs.isEmpty) {
-          print('No documents found in the collection.');
         } else {
           List<CommunityChatModelOfFirebase> tempList = [];
 

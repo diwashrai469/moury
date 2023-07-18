@@ -6,6 +6,13 @@ import '../../../../../core/services/toast_services.dart';
 import '../../../../data/all_users/model/all_users_response_model.dart';
 
 class AllUserViewModel extends BaseModel {
+  
+  @override
+  void onInit() {
+    getAllUser();
+    super.onInit();
+  }
+
   IGetAllUsersRepository getAllUserRepository = GetAllUserRepository();
   AllUsersResponseModel? allUsersResponseData;
 
@@ -23,7 +30,6 @@ class AllUserViewModel extends BaseModel {
       },
       (AllUsersResponseModel data) async {
         allUsersResponseData = data;
-        print(data.data?.length);
         update();
       },
     );

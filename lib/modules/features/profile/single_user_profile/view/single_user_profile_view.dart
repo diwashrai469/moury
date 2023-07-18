@@ -6,6 +6,8 @@ import 'package:moury/common/widgets/k_button.dart';
 import 'package:moury/modules/features/profile/single_user_profile/view_model/single_user_profile_view_model.dart';
 import 'package:moury/theme/app_theme.dart';
 
+import '../../../../../common/widgets/k_photo_preview.dart';
+
 class SingleUserProfileView extends StatelessWidget {
   const SingleUserProfileView({super.key});
 
@@ -14,12 +16,9 @@ class SingleUserProfileView extends StatelessWidget {
     final Map<String, dynamic> args = Get.arguments;
 
     final String userId = args['userId'];
-    final controller = Get.put(SingleUserProfileViewModel());
+
     return GetBuilder<SingleUserProfileViewModel>(
-      initState: (state) async {
-        await controller.getSingleUser(userId);
-        await controller.checkFollow(userId);
-      },
+      init: SingleUserProfileViewModel(userId: userId),
       builder: (controller) {
         final userData = controller.userResponseModel?.data?.first;
 
@@ -33,7 +32,7 @@ class SingleUserProfileView extends StatelessWidget {
                       Size.fromHeight(MediaQuery.of(context).size.height / 5),
                   child: AppBar(
                     elevation: 0,
-                    backgroundColor: Colors.grey.shade300,
+                    backgroundColor: avatarBackgroundColor,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(50),
@@ -87,7 +86,9 @@ class SingleUserProfileView extends StatelessWidget {
                                                         .buttonFontSizeMedium),
                                           ),
                                           sHeightSpan,
-                                          Text("120",
+                                          Text(
+                                              userData?.followers.toString() ??
+                                                  "0",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium
@@ -106,7 +107,7 @@ class SingleUserProfileView extends StatelessWidget {
                                       child: Column(
                                         children: [
                                           Text(
-                                            "Followers",
+                                            "Following",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium
@@ -116,41 +117,33 @@ class SingleUserProfileView extends StatelessWidget {
                                                         .buttonFontSizeMedium),
                                           ),
                                           sHeightSpan,
-                                          Text("120",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.copyWith(
-                                                    color: Colors.white,
-                                                  ))
+                                          Text(
+                                            userData?.following.toString() ??
+                                                '0',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                          )
                                         ],
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 3.6,
-                              ),
-
-                              // mHeightSpan,
-                              // Text("Name: ${userData?.name ?? ''}"),
-                              // Text("Username:${userData?.username ?? ''}"),
-                              // Text("Level:${userData?.level.toString() ?? ''}"),
-                              // Text(
-                              //     "Streak:${userData?.streak.toString() ?? '0'}"),
-                              // Text(
-                              //     "Followers:${userData?.followers.toString() ?? '0'}"),
-                              // Text(
-                              //     "Following:${userData?.following.toString() ?? '0'}"),
-                              // mHeightSpan,
+                              elHeightSpan,
+                              // SizedBox(
+                              //   height:
+                              //       MediaQuery.of(context).size.height / 3.6,
+                              // ),
                               controller.checkStatus(
                                   controller.followResponseData?.status ?? '',
                                   userId,
-                                  userData?.username),
+                                  userData?.username,
+                                  userData?.profilePicture),
                               sHeightSpan,
-
                               if (controller.followResponseData?.status ==
                                   "friends")
                                 KButton(
@@ -188,7 +181,13 @@ class SingleUserProfileView extends StatelessWidget {
                             ),
                       ),
                       xxsHeightSpan,
-                      Text("@${userData?.username ?? ''}"),
+                      Text(
+                        "@${userData?.username ?? ''}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: disabledColor),
+                      ),
                       xxsHeightSpan,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -207,7 +206,7 @@ class SingleUserProfileView extends StatelessWidget {
               ),
               Positioned(
                 top: 85,
-                right: 150,
+                right: MediaQuery.of(context).size.width / 3,
                 child: Hero(
                   tag: userId,
                   child: userData?.profilePicture?.isEmpty == true ||
@@ -227,13 +226,19 @@ class SingleUserProfileView extends StatelessWidget {
                             ),
                           ),
                         )
-                      : CircleAvatar(
-                          radius: 53,
-                          backgroundColor: Colors.grey.shade300,
+                      : GestureDetector(
+                          onTap: () => Get.to(
+                            KPhotoPreviewView(
+                                imageUrl: userData?.profilePicture ?? ''),
+                          ),
                           child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage:
-                                NetworkImage(userData?.profilePicture ?? ''),
+                            radius: 53,
+                            backgroundColor: Colors.grey.shade300,
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundImage:
+                                  NetworkImage(userData?.profilePicture ?? ''),
+                            ),
                           ),
                         ),
                 ),

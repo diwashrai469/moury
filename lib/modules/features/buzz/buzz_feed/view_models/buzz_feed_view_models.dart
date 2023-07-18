@@ -9,7 +9,7 @@ class BuzzFeedViewModels extends BaseModel {
   BuzzFeedResponseModel? buzzFeedData;
   IBuzzFeedRepository buzzFeedRepository = BuzzFeedRepository();
 
-  void getBuzzFeed() async {
+  getBuzzFeed() async {
     setLoading(true);
 
     var result = await buzzFeedRepository.getBuzzFeed();
@@ -29,7 +29,7 @@ class BuzzFeedViewModels extends BaseModel {
     setLoading(false);
   }
 
-  void createBuzz(String buzzComment) async {
+  createBuzz(String buzzComment) async {
     setLoading(true);
 
     var result = await buzzFeedRepository.createBuzz(buzzComment);
@@ -43,7 +43,7 @@ class BuzzFeedViewModels extends BaseModel {
       },
       (BuzzFeedResponseModel data) async {
         buzzFeedData = data;
-        getBuzzFeed();
+        await getBuzzFeed();
         Get.back();
 
         update();
@@ -53,8 +53,9 @@ class BuzzFeedViewModels extends BaseModel {
   }
 
   String calculateTimeAgo(String dateString) {
-    DateTime dateTime = DateTime.parse(dateString);
     DateTime now = DateTime.now();
+
+    DateTime dateTime = DateTime.parse(dateString);
     Duration difference = now.difference(dateTime);
     if (difference.inDays > 0) {
       return '${difference.inDays} days ago';
@@ -62,8 +63,10 @@ class BuzzFeedViewModels extends BaseModel {
       return '${difference.inHours} hours ago';
     } else if (difference.inMinutes > 0) {
       return '${difference.inMinutes} minutes ago';
+    } else if (difference.inSeconds > 0) {
+      return '${difference.inSeconds} sec ago';
     } else {
-      return '${difference.inSeconds} seconds ago';
+      return "just now";
     }
   }
 }

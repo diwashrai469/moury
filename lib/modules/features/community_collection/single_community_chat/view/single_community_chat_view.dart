@@ -6,7 +6,6 @@ import 'package:moury/common/constant/ui_helpers.dart';
 import 'package:moury/common/widgets/k_container_for_bottom_sheet.dart';
 import 'package:moury/modules/features/community_collection/single_community_chat/view_model/single_community_chat_view_model.dart';
 import '../../../../../common/constant/date_time.dart';
-import '../../../../../common/widgets/k_dialog.dart';
 import '../../../../../common/widgets/k_listile.dart';
 import '../../../../../theme/app_theme.dart';
 
@@ -32,6 +31,10 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
     final Map<String, dynamic> args = Get.arguments;
     final String communityId = args['communityId'];
     final String name = args['username'];
+    final int communityMembers = args['communityMembers'];
+    final VoidCallback? refreshMyCommunity = args['refreshMyCommunity'];
+    final bool? isFromCommunityView = args['isFromCommunityView'];
+
     void kshowBottomSheet(String senderId) {
       Get.bottomSheet(
         shape: const RoundedRectangleBorder(
@@ -124,33 +127,47 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
           ],
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: ListTile(
-            horizontalTitleGap: 4,
-            contentPadding: EdgeInsets.zero,
-            visualDensity: const VisualDensity(vertical: -3),
-            leading: CircleAvatar(
-              backgroundColor: avatarBackgroundColor,
-              radius: AppDimens.sCircleAvatarRadius,
-              child: Text(
-                name[0],
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.white),
+          title: InkWell(
+            onTap: () {
+              Get.toNamed(
+                "/single-community",
+                arguments: {
+                  'communityid': communityId,
+                  'communityTitle': name,
+                  'communityColor': Colors.blueGrey,
+                  'refreshMyCommunity': refreshMyCommunity,
+                  "isFromCommunityView": isFromCommunityView
+                },
+              );
+            },
+            child: ListTile(
+              horizontalTitleGap: 4,
+              contentPadding: EdgeInsets.zero,
+              visualDensity: const VisualDensity(vertical: -3),
+              leading: CircleAvatar(
+                backgroundColor: avatarBackgroundColor,
+                radius: AppDimens.sCircleAvatarRadius,
+                child: Text(
+                  name[0],
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white),
+                ),
               ),
-            ),
-            title: Text(
-              name,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: AppDimens.nameFontSize,
-                  ),
-            ),
-            subtitle: Text(
-              "Members",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: AppDimens.subsubFontSize,
-                    color: disabledColor,
-                  ),
+              title: Text(
+                name,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: AppDimens.nameFontSize,
+                    ),
+              ),
+              subtitle: Text(
+                "$communityMembers Members",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: AppDimens.subsubFontSize,
+                      color: disabledColor,
+                    ),
+              ),
             ),
           ),
           shape: const RoundedRectangleBorder(
@@ -169,6 +186,7 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
               Obx(
                 () => Expanded(
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     reverse: true,
                     itemCount: controller.chatList.length,
                     itemBuilder: (context, index) {
@@ -176,11 +194,11 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
                       var dateTime = ShowDateAndTimeInAgo()
                           .convertToTimeAgo(chatItem.time!.toInt());
 
-                      return Padding(
-                        padding: AppDimens.mainPagePadding,
-                        child: ListTile(
-                          horizontalTitleGap: 2,
-                          leading: InkWell(
+                      return ListTile(
+                        horizontalTitleGap: 2,
+                        leading: Padding(
+                          padding: const EdgeInsets.only(top: 17.0),
+                          child: InkWell(
                             onTap: () {
                               kshowBottomSheet(chatItem.senderId ?? '');
                             },
@@ -213,49 +231,49 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
                                         ''),
                                   ),
                           ),
-                          title: RichText(
-                            text: TextSpan(
-                              text:
-                                  chatItem.senderDetails?.senderUsername ?? '',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: AppDimens.subsubFontSize,
-                                    color: Colors.lightBlue,
-                                  ),
-                              children: [
-                                TextSpan(
-                                  text: "  $dateTime",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: AppDimens.subsubFontSize,
-                                          color: disabledColor),
+                        ),
+                        title: RichText(
+                          text: TextSpan(
+                            text: chatItem.senderDetails?.senderUsername ?? '',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: AppDimens.subsubFontSize,
+                                  color:
+                                      const Color.fromARGB(255, 11, 143, 204),
                                 ),
-                              ],
-                            ),
+                            children: [
+                              TextSpan(
+                                text: "  $dateTime",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: AppDimens.subsubFontSize,
+                                        color: disabledColor),
+                              ),
+                            ],
                           ),
-                          subtitle: Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.grey),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  chatItem.message ?? '',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                ),
+                        ),
+                        subtitle: Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color.fromARGB(255, 90, 88, 88)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                chatItem.message ?? '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: Colors.white,
+                                    ),
                               ),
                             ),
                           ),

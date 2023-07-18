@@ -11,18 +11,18 @@ class ShowDateAndTimeInAgo {
 
     if (days >= 1) {
       final format = NumberFormat('###,###');
-      return '${format.format(days)} days ago';
+      return '${format.format(days)} days';
     } else if (hours >= 1) {
       final format = NumberFormat('###,###');
-      return '${format.format(hours)} hours ago';
+      return '${format.format(hours)} hr';
     } else if (minutes >= 1) {
       final format = NumberFormat('###,###');
-      return '${format.format(minutes)} minutes ago';
+      return '${format.format(minutes)} min';
     } else if (seconds >= 1) {
       final format = NumberFormat('###,###');
-      return '${format.format(seconds)} seconds ago';
+      return '${format.format(seconds)} sec';
     } else {
-      return 'just now.';
+      return 'now';
     }
   }
 }

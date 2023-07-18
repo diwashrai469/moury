@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -107,6 +105,7 @@ class ExploreView extends StatelessWidget {
                                   child: const Text("No any community"),
                                 )
                               : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   itemCount: controler.counts(exploreData
                                           .getAllCommunityData?.data?.length ??
@@ -125,12 +124,6 @@ class ExploreView extends StatelessWidget {
                                             "communityTitle":
                                                 communityList?.name ?? '',
                                             "communityColor": colorList[index],
-                                            "communityDescription":
-                                                communityList?.description ??
-                                                    'No description',
-                                            "communityMembers":
-                                                communityList?.members ??
-                                                    'No description',
                                           },
                                         );
                                       },
@@ -140,14 +133,20 @@ class ExploreView extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(
                                                 AppDimens
                                                     .sboarderRadisCircular)),
-                                        width: 300,
-                                        margin: const EdgeInsets.all(8),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.3,
+                                        margin: const EdgeInsets.all(4),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             sHeightSpan,
                                             ListTile(
+                                              visualDensity:
+                                                  const VisualDensity(
+                                                vertical: 1.5,
+                                              ),
                                               leading: Hero(
                                                 tag: communityList?.name ?? '',
                                                 child: CircleAvatar(
@@ -222,6 +221,7 @@ class ExploreView extends StatelessWidget {
                                                               .subFontSize)),
                                             ),
                                             sHeightSpan,
+                                            xxsHeightSpan,
                                             xxsHeightSpan
                                           ],
                                         ),
@@ -267,85 +267,80 @@ class ExploreView extends StatelessWidget {
                         ),
                         sHeightSpan,
                         Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  exploreData.exploreResponseData?.data?.length,
-                              itemBuilder: (context, index) {
-                                final suggestFriend = exploreData
-                                    .exploreResponseData?.data?[index];
-                                return InkWell(
-                                  onTap: () {
-                                    Get.toNamed(
-                                      "/single-user-profile",
-                                      arguments: {
-                                        "userId": suggestFriend?.sId ?? ''
-                                      },
-                                    );
-                                  },
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.all(3),
-                                    leading: Hero(
-                                      tag: suggestFriend?.sId ?? '',
-                                      child: suggestFriend?.profilePicture ==
-                                              null
-                                          ? CircleAvatar(
-                                              backgroundColor:
-                                                  avatarBackgroundColor,
-                                              radius:
-                                                  AppDimens.lCircleAvatarRadius,
-                                              child: Text(
-                                                suggestFriend?.name?[0] ?? '',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(
-                                                        color: Colors.white),
-                                              ),
-                                            )
-                                          : CircleAvatar(
-                                              radius:
-                                                  AppDimens.lCircleAvatarRadius,
-                                              backgroundImage: NetworkImage(
-                                                  suggestFriend
-                                                          ?.profilePicture ??
-                                                      ''),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount:
+                                exploreData.exploreResponseData?.data?.length,
+                            itemBuilder: (context, index) {
+                              final suggestFriend =
+                                  exploreData.exploreResponseData?.data?[index];
+                              return InkWell(
+                                onTap: () {
+                                  Get.toNamed(
+                                    "/single-user-profile",
+                                    arguments: {
+                                      "userId": suggestFriend?.sId ?? ''
+                                    },
+                                  );
+                                },
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(3),
+                                  leading: Hero(
+                                    tag: suggestFriend?.sId ?? '',
+                                    child: suggestFriend?.profilePicture == null
+                                        ? CircleAvatar(
+                                            backgroundColor:
+                                                avatarBackgroundColor,
+                                            radius:
+                                                AppDimens.lCircleAvatarRadius,
+                                            child: Text(
+                                              suggestFriend?.name?[0] ?? '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith(
+                                                      color: Colors.white),
                                             ),
-                                    ),
-                                    title: Text(
-                                      suggestFriend?.name ?? 'N/a',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              color: Colors.white,
-                                              fontSize:
-                                                  AppDimens.globaleFontSize),
-                                    ),
-                                    subtitle: Text(
-                                      "${suggestFriend?.followers.toString()} followers",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              color: disabledColor,
-                                              fontSize: AppDimens.subFontSize,
-                                              fontWeight: FontWeight.normal),
-                                    ),
-                                    trailing: const CircleAvatar(
-                                      backgroundColor: Colors.grey,
-                                      child: Icon(
-                                        CupertinoIcons.person_add_solid,
-                                        color: Colors.white,
-                                      ),
+                                          )
+                                        : CircleAvatar(
+                                            radius:
+                                                AppDimens.lCircleAvatarRadius,
+                                            backgroundImage: NetworkImage(
+                                                suggestFriend?.profilePicture ??
+                                                    ''),
+                                          ),
+                                  ),
+                                  title: Text(
+                                    suggestFriend?.name ?? 'N/a',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            color: Colors.white,
+                                            fontSize:
+                                                AppDimens.globaleFontSize),
+                                  ),
+                                  subtitle: Text(
+                                    "${suggestFriend?.followers.toString()} followers",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            color: disabledColor,
+                                            fontSize: AppDimens.subFontSize,
+                                            fontWeight: FontWeight.normal),
+                                  ),
+                                  trailing: const CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    child: Icon(
+                                      CupertinoIcons.person_alt_circle_fill,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],

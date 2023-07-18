@@ -26,69 +26,71 @@ class DashboardView extends StatelessWidget {
     double navIconSize = 25.0;
     final changeIndex = Get.put(DashboardViewModel());
     return Scaffold(
-        backgroundColor: secondaryColor,
-        body: PageView(
-          controller: changeIndex.pageController,
-          children: _widgetOptions,
-          onPageChanged: (index) => changeIndex.selectedIndex.value = index,
-        ),
-        bottomNavigationBar: Obx(
-          () => Theme(
-              data: Theme.of(context).copyWith(
-                canvasColor: secondaryColor,
+      backgroundColor: secondaryColor,
+      body: PageView(
+        controller: changeIndex.pageController,
+        children: _widgetOptions,
+        onPageChanged: (index) => changeIndex.selectedIndex.value = index,
+      ),
+      bottomNavigationBar: Obx(
+        () => Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: secondaryColor,
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: secondaryColor,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  CupertinoIcons.chat_bubble_text,
+                  size: navIconSize,
+                ),
+                label: 'Chats',
               ),
-              child: BottomNavigationBar(
-                backgroundColor: secondaryColor,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      CupertinoIcons.chat_bubble_text,
-                      size: navIconSize,
-                    ),
-                    label: 'Chats',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      CupertinoIcons.person_2,
-                      size: navIconSize,
-                    ),
-                    label: 'Community',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.flash_on,
-                      size: navIconSize,
-                    ),
-                    label: 'Buzz(s)',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.explore,
-                      size: navIconSize,
-                    ),
-                    label: 'Explore',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.person,
-                      size: navIconSize,
-                    ),
-                    label: 'Profile',
-                  ),
-                ],
-                type: BottomNavigationBarType.shifting,
-                currentIndex: changeIndex.selectedIndex.value,
-                selectedFontSize: AppDimens.nameFontSize,
-                selectedLabelStyle: const TextStyle(
-                    color: primaryColor, fontSize: AppDimens.subFontSize),
-                selectedIconTheme: const IconThemeData(color: primaryColor),
-                unselectedItemColor: disabledColor,
-                unselectedLabelStyle: const TextStyle(color: disabledColor),
-                selectedItemColor: primaryColor,
-                iconSize: 25,
-                onTap: changeIndex.changeSelectedIndex,
-                elevation: 5,
-              )),
-        ));
+              BottomNavigationBarItem(
+                icon: Icon(
+                  CupertinoIcons.person_2,
+                  size: navIconSize,
+                ),
+                label: 'Community',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.flash_on,
+                  size: navIconSize,
+                ),
+                label: 'Buzz(s)',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.explore,
+                  size: navIconSize,
+                ),
+                label: 'Explore',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  size: navIconSize,
+                ),
+                label: 'Profile',
+              ),
+            ],
+            type: BottomNavigationBarType.shifting,
+            currentIndex: changeIndex.selectedIndex.value,
+            selectedFontSize: AppDimens.nameFontSize,
+            selectedLabelStyle: const TextStyle(
+                color: primaryColor, fontSize: AppDimens.subFontSize),
+            selectedIconTheme: const IconThemeData(color: primaryColor),
+            unselectedItemColor: disabledColor,
+            unselectedLabelStyle: const TextStyle(color: disabledColor),
+            selectedItemColor: primaryColor,
+            iconSize: 25,
+            onTap: changeIndex.changeSelectedIndex,
+            elevation: 5,
+          ),
+        ),
+      ),
+    );
   }
 }

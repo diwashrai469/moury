@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:moury/modules/features/auth/signup/view/signup_view.dart';
 import 'package:moury/modules/features/auth/signup/view/widgets/onbarding_signup_view.dart';
 import 'package:moury/modules/features/buzz/buzz_feed/view/widgets/add_buzz_feed_view.dart';
-import 'package:moury/modules/features/chat_collection/chats/view/chat_view.dart';
 import 'package:moury/modules/features/community_collection/my_community/view/my_community_view.dart';
 import 'package:moury/modules/features/community_collection/single_community_chat/view/single_community_chat_view.dart';
 import 'package:moury/modules/features/profile/all_user/view/all_user_view.dart';

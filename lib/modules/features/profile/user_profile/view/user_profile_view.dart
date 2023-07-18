@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moury/common/constant/app_dimens.dart';
 import 'package:moury/common/constant/ui_helpers.dart';
+import 'package:moury/common/widgets/k_dialog.dart';
+import 'package:moury/common/widgets/k_photo_preview.dart';
 import 'package:moury/core/services/local_storage.dart';
 import 'package:moury/modules/features/profile/user_profile/view_models/user_profile_view_model.dart';
 import 'package:moury/theme/app_theme.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
-import '../../../../../common/widgets/k_button.dart';
 
 class UserProfileView extends StatefulWidget {
   const UserProfileView({super.key});
@@ -19,104 +18,217 @@ class UserProfileView extends StatefulWidget {
 class _UserProfileViewState extends State<UserProfileView> {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserProfileviewModel());
-
-    return GetBuilder<UserProfileviewModel>(initState: (state) async {
-      await controller.getUserConfig();
-    }, builder: (controller) {
-      final userConfigData = controller.userConfigData?.data;
-      return Scaffold(
-        backgroundColor: secondaryColor,
-        appBar: AppBar(
-            elevation: 0,
-            backgroundColor: secondaryColor,
-            title: Text(
-              "Profile",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white, fontSize: AppDimens.titleFontSize),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: InkWell(
-                    onTap: () => Get.toNamed(
-                          '/edit-user-profile',
-                        ),
-                    child: const Icon(Icons.edit)),
-              )
-            ]),
-        body: controller.isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Padding(
-                padding: AppDimens.secondaryPagePaading,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    userConfigData?.profilePicture?.isEmpty == true ||
-                            userConfigData?.profilePicture == null
-                        ? CircleAvatar(
-                            radius: 45,
-                            child: Text(userConfigData?.username?[0] ?? ''),
-                          )
-                        : GestureDetector(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PhotoPreviewView(
-                                      imageUrl:
-                                          userConfigData.profilePicture ?? ''),
-                                )),
-                            child: CircleAvatar(
-                              radius: 45,
-                              backgroundImage: NetworkImage(
-                                  userConfigData!.profilePicture ?? 'N/a'),
+    return GetBuilder<UserProfileviewModel>(
+      init: UserProfileviewModel(),
+      builder: (controller) {
+        final userConfigData = controller.userConfigData?.data;
+        return Scaffold(
+          backgroundColor: secondaryColor,
+          body: SafeArea(
+            child: controller.isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Padding(
+                    padding: AppDimens.secondaryPagePaading,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        lHeightSpan,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 7.0),
+                              child: Text(
+                                "Profile",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Colors.white,
+                                        fontSize:
+                                            AppDimens.headlineFontSizeOther),
+                              ),
                             ),
+                            PopupMenuButton<String>(
+                              offset: const Offset(0, 40),
+                              padding: const EdgeInsets.all(8),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
+                                ),
+                              ),
+                              onSelected: (String option) {
+                                if (option == 'Logout') {
+                                  kDialogBox(
+                                    context,
+                                    heading: "Confirm!",
+                                    message:
+                                        "Are you sure you want to leave this group?",
+                                    onKeyPressed: () async {
+                                      LocalStorageService()
+                                          .clear(LocalStorageKeys.accessToken);
+                                      Get.offAllNamed('/login');
+                                    },
+                                  );
+                                }
+                                if (option == 'Edit') {
+                                  Get.toNamed(
+                                    '/edit-user-profile',
+                                  );
+                                }
+                              },
+                              itemBuilder: (BuildContext context) {
+                                return [
+                                  PopupMenuItem<String>(
+                                    padding:
+                                        const EdgeInsets.only(left: 20, top: 0),
+                                    height: 23,
+                                    value: 'Edit',
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.edit,
+                                          color: primaryColor,
+                                          size: 15,
+                                        ),
+                                        xsWidthSpan,
+                                        Text(
+                                          'Edit',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: primaryColor,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    padding:
+                                        const EdgeInsets.only(left: 20, top: 5),
+                                    height: 23,
+                                    value: 'Logout',
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.logout_rounded,
+                                          color: primaryColor,
+                                          size: 15,
+                                        ),
+                                        xsWidthSpan,
+                                        Text(
+                                          'Logout',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: primaryColor,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ];
+                              },
+                              child: const Icon(
+                                Icons.more_vert,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        mHeightSpan,
+                        Center(
+                          child: userConfigData?.profilePicture?.isEmpty ==
+                                      true ||
+                                  userConfigData?.profilePicture == null
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  child:
+                                      Text(userConfigData?.username?[0] ?? ''),
+                                )
+                              : GestureDetector(
+                                  onTap: () => Get.to(
+                                    KPhotoPreviewView(
+                                        imageUrl:
+                                            userConfigData.profilePicture ??
+                                                ''),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: NetworkImage(
+                                        userConfigData!.profilePicture ??
+                                            'N/a'),
+                                  ),
+                                ),
+                        ),
+                        mHeightSpan,
+                        Text(userConfigData?.name ?? 'N/a'),
+                        Text(
+                          "@${userConfigData?.username ?? 'N/a'}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: disabledColor),
+                        ),
+                        sHeightSpan,
+                        Text("Email: ${userConfigData?.email ?? 'N/a'}"),
+                        sHeightSpan,
+                        mHeightSpan,
+                        Container(
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 78, 104, 117),
+                              borderRadius: BorderRadius.circular(
+                                  AppDimens.sboarderRadisCircular)),
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Followers"),
+                                  mHeightSpan,
+                                  Text(userConfigData?.followers.toString() ??
+                                      '0')
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Level"),
+                                  mHeightSpan,
+                                  Text(userConfigData?.level.toString() ?? '0')
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Streak"),
+                                  mHeightSpan,
+                                  Text(userConfigData?.streak.toString() ?? '0')
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Buzz"),
+                                  mHeightSpan,
+                                  Text(userConfigData?.buzzs.toString() ?? '0')
+                                ],
+                              )
+                            ],
                           ),
-                    mHeightSpan,
-                    Text("Name: ${userConfigData?.name ?? 'N/a'}"),
-                    sHeightSpan,
-                    Text("Username: ${userConfigData?.username ?? 'N/a'}"),
-                    sHeightSpan,
-                    Text("Email: ${userConfigData?.email ?? 'N/a'}"),
-                    elHeightSpan,
-                    KButton(
-                        child: const Text("logout"),
-                        onPressed: () {
-                          LocalStorageService()
-                              .clear(LocalStorageKeys.accessToken);
-                          Get.offAndToNamed('/login');
-                        }),
-                  ],
-                ),
-              ),
-      );
-    });
-  }
-}
-
-class PhotoPreviewView extends StatelessWidget {
-  final String imageUrl;
-  const PhotoPreviewView({super.key, required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
-      body: PhotoViewGallery.builder(
-        scrollPhysics: const BouncingScrollPhysics(),
-        itemCount: 1,
-        builder: (BuildContext context, int index) {
-          return PhotoViewGalleryPageOptions(
-            imageProvider: NetworkImage(imageUrl),
-            initialScale: PhotoViewComputedScale.contained,
-            heroAttributes: PhotoViewHeroAttributes(tag: imageUrl),
-          );
-        },
-      ),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
+        );
+      },
     );
   }
 }

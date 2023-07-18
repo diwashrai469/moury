@@ -40,10 +40,11 @@ class AddBuzzFeedView extends StatelessWidget {
               mHeightSpan,
               KButton(
                   child: const Text("Buzz up"),
-                  onPressed: () {
+                  onPressed: () async {
                     FocusManager.instance.primaryFocus?.unfocus();
                     if (feedTextController.text.isNotEmpty) {
-                      createaFeedModel.createBuzz(feedTextController.text);
+                      await createaFeedModel
+                          .createBuzz(feedTextController.text);
                     }
                   })
             ],

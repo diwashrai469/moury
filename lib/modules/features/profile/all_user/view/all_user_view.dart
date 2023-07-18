@@ -10,13 +10,14 @@ class AllUserView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contorller = Get.put(AllUserViewModel());
     return Scaffold(
       backgroundColor: secondaryColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: GetBuilder<AllUserViewModel>(
-        initState: (state) {
-          contorller.getAllUser();
-        },
+        init: AllUserViewModel(),
         builder: (controller) {
           return controller.isLoading
               ? const Center(
@@ -27,7 +28,6 @@ class AllUserView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      elHeightSpan,
                       Padding(
                         padding: const EdgeInsets.only(left: 7.0),
                         child: Text(
@@ -75,25 +75,53 @@ class AllUserView extends StatelessWidget {
                                 );
                               },
                               child: Card(
+                                color: const Color.fromARGB(255, 105, 105, 105),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      CircleAvatar(
-                                        radius: 30,
-                                        child: Text(
-                                          userData?.name?[0] ?? '',
-                                        ),
-                                      ),
+                                      userData?.profilePicture == null ||
+                                              userData?.profilePicture
+                                                      ?.isEmpty ==
+                                                  true
+                                          ? CircleAvatar(
+                                              backgroundColor:
+                                                  avatarBackgroundColor,
+                                              radius: AppDimens
+                                                  .elCircleAvatarRadius,
+                                              child: Text(
+                                                userData?.name?[0] ?? '',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                        color: Colors.white,
+                                                        fontSize: AppDimens
+                                                            .nameFontSize),
+                                              ),
+                                            )
+                                          : CircleAvatar(
+                                              backgroundColor:
+                                                  avatarBackgroundColor,
+                                              radius: AppDimens
+                                                  .elCircleAvatarRadius,
+                                              backgroundImage: NetworkImage(
+                                                  userData?.profilePicture ??
+                                                      ''),
+                                            ),
                                       sHeightSpan,
-                                      Text(
-                                        userData?.name ?? 'N/a',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                      mHeightSpan,
+                                      Text(userData?.name ?? 'N/a',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
+                                      Text("@${userData?.username ?? 'N/a'}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontSize: AppDimens
+                                                      .subsubFontSize)),
                                     ],
                                   ),
                                 ),

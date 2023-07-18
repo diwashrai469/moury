@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:moury/modules/data/chat/my_community/model/create_community_view_model.dart';
 import 'package:moury/modules/data/chat/my_community/model/my_community_response_model.dart';
 
 import '../../../../../core/services/intercepters.dart';
@@ -17,13 +18,22 @@ class MyCommunityService {
 
   Future<LeaveCommunityResponseModel> leaveMyCommunity(String id) async {
     Dio dio = getDioInstance();
-    print("communityid:$id");
 
     final response = await dio.delete(
       "community/leave/$id",
     );
 
     return LeaveCommunityResponseModel.fromJson(response.data);
+  }
+
+  Future<CreateCommunityViewModel> createCommunity(
+      String name, String description) async {
+    Dio dio = getDioInstance();
+
+    final response = await dio.post("community/create",
+        data: {'name': name, 'description': description});
+
+    return CreateCommunityViewModel.fromJson(response.data);
   }
 
   Future<MyCommunityResponseModel> sendMessage(

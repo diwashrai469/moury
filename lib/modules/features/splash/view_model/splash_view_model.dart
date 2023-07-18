@@ -12,11 +12,11 @@ class SplashViewModel extends BaseModel {
   @override
   void onInit() {
     super.onInit();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getConfig();
-      checkAccessToken();
-    
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        checkAccessToken();
+      },
+    );
   }
 
   IUserConfigRepository configRepository = UserConfigRepository();
@@ -29,6 +29,7 @@ class SplashViewModel extends BaseModel {
       Get.offNamed('/login');
     } else {
       Get.offNamed('/dashboard');
+      getConfig();
     }
   }
 
@@ -51,6 +52,4 @@ class SplashViewModel extends BaseModel {
     );
     setLoading(false);
   }
-
-  
 }

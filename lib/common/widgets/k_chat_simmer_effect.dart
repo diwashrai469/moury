@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../theme/app_theme.dart';
 import '../constant/app_dimens.dart';
 
@@ -10,12 +9,14 @@ class KChatSimmerEffect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey,
-      highlightColor: Colors.grey.shade100,
+      baseColor: const Color(0xFF3C3C3C),
+      highlightColor: const Color.fromARGB(255, 71, 71, 71).withOpacity(1),
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: 4, // Placeholder count
+        itemCount: 15, // Placeholder count
         itemBuilder: (context, index) {
           return ListTile(
             contentPadding: const EdgeInsets.all(5),
@@ -26,12 +27,16 @@ class KChatSimmerEffect extends StatelessWidget {
             title: Container(
               width: double.infinity,
               height: 18,
-              color: avatarBackgroundColor,
+              decoration: BoxDecoration(
+                  color: avatarBackgroundColor,
+                  borderRadius: BorderRadius.circular(8)),
             ),
             subtitle: Container(
-              width: 80,
+              decoration: BoxDecoration(
+                  color: avatarBackgroundColor,
+                  borderRadius: BorderRadius.circular(8)),
+              width: MediaQuery.of(context).size.width / 4,
               height: 12,
-              color: avatarBackgroundColor,
             ),
           );
         },
