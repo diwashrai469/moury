@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:moury/theme/app_theme.dart';
 import '../../../../../common/constant/app_dimens.dart';
 import '../../../../../common/constant/app_image.dart';
 import '../../../../../common/constant/ui_helpers.dart';
@@ -20,7 +19,6 @@ class LoginView extends StatelessWidget {
     final passwordController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: secondaryColor,
       body: SafeArea(
         child: Padding(
           padding: AppDimens.secondaryPagePaading,

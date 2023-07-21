@@ -49,7 +49,6 @@ class _SingleCommunityViewState extends State<SingleCommunityView> {
           return Stack(
             children: [
               Scaffold(
-                backgroundColor: secondaryColor,
                 appBar: PreferredSize(
                   preferredSize:
                       Size.fromHeight(MediaQuery.of(context).size.height / 7.5),

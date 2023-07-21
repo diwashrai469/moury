@@ -77,7 +77,7 @@ abstract class AppThemes {
     //     ),
 
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+    scaffoldBackgroundColor: secondaryColor,
     cardTheme: ThemeData.light().cardTheme.copyWith(
         margin: const EdgeInsets.symmetric(vertical: 4),
         shape: OutlineInputBorder(

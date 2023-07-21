@@ -25,13 +25,17 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     double navIconSize = 25.0;
     final changeIndex = Get.put(DashboardViewModel());
+
     return Scaffold(
-      backgroundColor: secondaryColor,
-      body: PageView(
-        controller: changeIndex.pageController,
-        children: _widgetOptions,
-        onPageChanged: (index) => changeIndex.selectedIndex.value = index,
-      ),
+      body: GetBuilder<DashboardViewModel>(initState: (value) {
+        changeIndex.getPrivateChatList();
+      }, builder: (controller) {
+        return PageView(
+          controller: changeIndex.pageController,
+          children: _widgetOptions,
+          onPageChanged: (index) => changeIndex.selectedIndex.value = index,
+        );
+      }),
       bottomNavigationBar: Obx(
         () => Theme(
           data: Theme.of(context).copyWith(
@@ -41,9 +45,21 @@ class DashboardView extends StatelessWidget {
             backgroundColor: secondaryColor,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(
-                  CupertinoIcons.chat_bubble_text,
-                  size: navIconSize,
+                icon: Stack(
+                  children: [
+                    Icon(
+                      CupertinoIcons.chat_bubble_text,
+                      size: navIconSize,
+                    ),
+                    if (changeIndex.hasNewMessage.value == false)
+                      const Positioned(
+                        left: 16,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          radius: 4,
+                        ),
+                      ),
+                  ],
                 ),
                 label: 'Chats',
               ),

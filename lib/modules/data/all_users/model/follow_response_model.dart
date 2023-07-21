@@ -1,18 +1,21 @@
-class FollowResponseModel {
+class CheckFriendResponseModel {
   String? status;
-  String? data;
+  String? friendshipStatus;
+  bool? areFriends;
 
-  FollowResponseModel({this.status, this.data});
+  CheckFriendResponseModel({this.status, this.friendshipStatus, this.areFriends});
 
-  FollowResponseModel.fromJson(Map<String, dynamic> json) {
+  CheckFriendResponseModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'];
+    friendshipStatus = json['friendship_status'];
+    areFriends = json['are_friends'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
-    data['data'] = this.data;
+    data['friendship_status'] = friendshipStatus;
+    data['are_friends'] = areFriends;
     return data;
   }
 }

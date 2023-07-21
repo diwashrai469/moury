@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:moury/common/constant/ui_helpers.dart';
 import 'package:moury/theme/app_theme.dart';
-import '../../../../../common/constant/app_dimens.dart';
-import '../view_model/all_user_view_model.dart';
+import '../../../../../../common/constant/app_dimens.dart';
+import '../../../../../../common/constant/ui_helpers.dart';
+import '../../view_model/private_chat_view_model.dart';
 
-class AllUserView extends StatelessWidget {
-  const AllUserView({super.key});
+class MyFriendListView extends StatelessWidget {
+  const MyFriendListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,47 +15,29 @@ class AllUserView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: GetBuilder<AllUserViewModel>(
-        init: AllUserViewModel(),
-        builder: (controller) {
-          return controller.isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Padding(
-                  padding: AppDimens.mainPagePadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 7.0),
-                        child: Text(
-                          "Explore Friends",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  color: Colors.white,
-                                  fontSize: AppDimens.headlineFontSizeOther),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 7.0),
-                        child: Text(
-                          "Get connected with people",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  color: disabledColor,
-                                  fontSize: AppDimens.headlineFontSizeXXSmall),
-                        ),
-                      ),
-                      mHeightSpan,
-                      Expanded(
-                        child: GridView.builder(
+      backgroundColor: secondaryColor,
+      body: GetBuilder<PrivateChatViewModel>(
+          init: PrivateChatViewModel(),
+          builder: (controller) {
+            return Padding(
+              padding: AppDimens.mainPagePadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 7.0),
+                    child: Text(
+                      "My Friends",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                          fontSize: AppDimens.headlineFontSizeOther),
+                    ),
+                  ),
+                  mHeightSpan,
+                  Expanded(
+                      child: GridView.builder(
                           itemCount:
-                              controller.allUsersResponseData?.data?.length,
+                              controller.myFriendsResponseModel?.data?.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -63,7 +45,7 @@ class AllUserView extends StatelessWidget {
                                   mainAxisSpacing: 20.0),
                           itemBuilder: (BuildContext context, int index) {
                             final userData =
-                                controller.allUsersResponseData?.data?[index];
+                                controller.myFriendsResponseModel?.data?[index];
                             return InkWell(
                               onTap: () {
                                 Get.toNamed(
@@ -109,11 +91,12 @@ class AllUserView extends StatelessWidget {
                                                   userData?.profilePicture ??
                                                       ''),
                                             ),
-                                      sHeightSpan,
                                       Text(userData?.name ?? 'N/a',
+                                          textAlign: TextAlign.center,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium),
+                                      sHeightSpan,
                                       Text("@${userData?.username ?? 'N/a'}",
                                           style: Theme.of(context)
                                               .textTheme
@@ -126,14 +109,11 @@ class AllUserView extends StatelessWidget {
                                 ),
                               ),
                             );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-        },
-      ),
+                          }))
+                ],
+              ),
+            );
+          }),
     );
   }
 }

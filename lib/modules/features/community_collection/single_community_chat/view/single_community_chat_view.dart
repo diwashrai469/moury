@@ -68,7 +68,6 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
     }
 
     return Scaffold(
-      backgroundColor: secondaryColor,
       appBar: AppBar(
           actions: const [
             // Padding(

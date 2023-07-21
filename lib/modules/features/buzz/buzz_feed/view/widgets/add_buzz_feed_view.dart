@@ -15,7 +15,6 @@ class AddBuzzFeedView extends StatelessWidget {
     TextEditingController feedTextController = TextEditingController();
     final createaFeedModel = Get.put(BuzzFeedViewModels());
     return Scaffold(
-      backgroundColor: secondaryColor,
       appBar: AppBar(
         elevation: 0,
         title: Text(

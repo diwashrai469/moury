@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moury/common/constant/app_dimens.dart';
 
 import '../../core/services/toast_services.dart';
 import '../../theme/app_theme.dart';
@@ -17,9 +18,9 @@ class KToast extends StatelessWidget {
   Color getColor(ToastVariant variant) {
     switch (variant) {
       case ToastVariant.success:
-        return Colors.green;
+        return Colors.black;
       case ToastVariant.error:
-        return Colors.red;
+        return const Color.fromARGB(143, 187, 16, 4);
       case ToastVariant.warning:
         return Colors.orange;
       case ToastVariant.info:
@@ -50,7 +51,7 @@ class KToast extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 32),
       decoration: BoxDecoration(
         color: getColor(variant),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
@@ -70,6 +71,7 @@ class KToast extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontFamily: fontFamily,
                     fontWeight: FontWeight.bold,
+                    fontSize: AppDimens.subFontSize,
                     color: Colors.white,
                   ),
             ),

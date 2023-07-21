@@ -1,19 +1,23 @@
 class PrivateChatListResponseModel {
   String? message;
   ReceiverDetails? receiverDetails;
-  String? receiverId;
+  List<String>? receiverSenderId;
   bool? seen;
+  bool? seen_actual;
   SenderDetails? senderDetails;
+  String? receiverId;
   String? senderId;
   int? time;
 
   PrivateChatListResponseModel(
       {this.message,
       this.receiverDetails,
-      this.receiverId,
+      this.receiverSenderId,
       this.seen,
       this.senderDetails,
+      this.receiverId,
       this.senderId,
+      this.seen_actual,
       this.time});
 
   PrivateChatListResponseModel.fromJson(Map<String, dynamic> json) {
@@ -21,11 +25,15 @@ class PrivateChatListResponseModel {
     receiverDetails = json['receiver_details'] != null
         ? ReceiverDetails.fromJson(json['receiver_details'])
         : null;
-    receiverId = json['receiver_id'];
+    receiverSenderId = json['receiver_sender_id'] is String
+        ? null
+        : json['receiver_sender_id']?.map<String>((x) => x.toString()).toList();
     seen = json['seen'];
+    seen_actual = json['seen_actual'];
     senderDetails = json['sender_details'] != null
         ? SenderDetails.fromJson(json['sender_details'])
         : null;
+    receiverId = json['receiver_id'];
     senderId = json['sender_id'];
     time = json['time'];
   }
@@ -36,11 +44,14 @@ class PrivateChatListResponseModel {
     if (receiverDetails != null) {
       data['receiver_details'] = receiverDetails!.toJson();
     }
-    data['receiver_id'] = receiverId;
+    if (receiverSenderId != null) {
+      data['receiver_sender_id'] = receiverSenderId!;
+    }
     data['seen'] = seen;
     if (senderDetails != null) {
       data['sender_details'] = senderDetails!.toJson();
     }
+    data['receiver_id'] = receiverId;
     data['sender_id'] = senderId;
     data['time'] = time;
     return data;

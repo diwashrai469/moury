@@ -5,6 +5,8 @@ import 'package:moury/core/services/network_services.dart';
 import 'package:moury/core/services/toast_services.dart';
 import 'package:moury/modules/data/all_users/model/all_users_response_model.dart';
 import 'package:moury/modules/data/all_users/model/follow_response_model.dart';
+import 'package:moury/modules/data/all_users/model/friend_request_response_model.dart';
+import 'package:moury/modules/data/all_users/model/my_friends_response_model.dart';
 import 'package:moury/modules/data/all_users/repository/get_all_user_repository.dart';
 import 'package:moury/modules/data/base_model/base_model.dart';
 
@@ -17,32 +19,15 @@ class SingleUserProfileViewModel extends BaseModel {
   @override
   void onInit() {
     getSingleUser(userId);
-    checkFollow(userId);
+    checkIsFriend(userId);
     super.onInit();
   }
 
   AllUsersResponseModel? userResponseModel;
-  FollowResponseModel? followResponseData;
+  CheckFriendResponseModel? checkFriendResponseModel;
+  MyFriendsResponseModel? myFriendsResponseModel;
   IGetAllUsersRepository singleUserRepo = GetAllUserRepository();
-
-  // Future<void> ollowUser(String singleUserId) async {
-  //   setLoading(true);
-  //   var result = await singleUserRepo.getSingleUser(singleUserId);
-  //   result.fold(
-  //     (NetworkFailure error) {
-  //       if (error.message?.isNotEmpty == true) {
-  //         ToastService().e(error.message ?? '');
-  //       } else {
-  //         ToastService().e("An unknown error occurred");
-  //       }
-  //     },
-  //     (AllUsersResponseModel data) async {
-  //       userResponseModel = data;
-  //       update();
-  //     },
-  //   );
-  //   setLoading(false);
-  // }
+  FriendRequestResponseModel? friendRequestResponseModel;
 
   getSingleUser(String singleUserId) async {
     setLoading(true);
@@ -63,9 +48,9 @@ class SingleUserProfileViewModel extends BaseModel {
     setLoading(false);
   }
 
-  checkFollow(String singleUserId) async {
+  getMyFriends() async {
     setLoading(true);
-    var result = await singleUserRepo.checkFollow(singleUserId);
+    var result = await singleUserRepo.myFriends();
     result.fold(
       (NetworkFailure error) {
         if (error.message?.isNotEmpty == true) {
@@ -74,17 +59,17 @@ class SingleUserProfileViewModel extends BaseModel {
           ToastService().e("An unknown error occurred");
         }
       },
-      (FollowResponseModel data) async {
-        followResponseData = data;
+      (MyFriendsResponseModel data) async {
+        myFriendsResponseModel = data;
         update();
       },
     );
     setLoading(false);
   }
 
-  followUser(String singleUserId) async {
+  checkIsFriend(String singleUserId) async {
     setLoading(true);
-    var result = await singleUserRepo.followUser(singleUserId);
+    var result = await singleUserRepo.checkIsFriend(singleUserId);
     result.fold(
       (NetworkFailure error) {
         if (error.message?.isNotEmpty == true) {
@@ -93,18 +78,37 @@ class SingleUserProfileViewModel extends BaseModel {
           ToastService().e("An unknown error occurred");
         }
       },
-      (FollowResponseModel data) async {
+      (CheckFriendResponseModel data) async {
+        checkFriendResponseModel = data;
+        update();
+      },
+    );
+    setLoading(false);
+  }
+
+  addUser(String singleUserId) async {
+    setLoading(true);
+    var result = await singleUserRepo.addUser(singleUserId);
+    result.fold(
+      (NetworkFailure error) {
+        if (error.message?.isNotEmpty == true) {
+          ToastService().e(error.message ?? '');
+        } else {
+          ToastService().e("An unknown error occurred");
+        }
+      },
+      (FriendRequestResponseModel data) async {
         ToastService().s(data.data ?? "Sucess!");
-        followResponseData = data;
+        friendRequestResponseModel = data;
         update();
       },
     );
     setLoading(false);
   }
 
-  unFollowUser(String singleUserId) async {
+  acceptUser(String singleUserId) async {
     setLoading(true);
-    var result = await singleUserRepo.unfollowUser(singleUserId);
+    var result = await singleUserRepo.acceptUser(singleUserId);
     result.fold(
       (NetworkFailure error) {
         if (error.message?.isNotEmpty == true) {
@@ -113,55 +117,109 @@ class SingleUserProfileViewModel extends BaseModel {
           ToastService().e("An unknown error occurred");
         }
       },
-      (FollowResponseModel data) async {
-        ToastService().s(data.data ?? "Un-followed!");
-        followResponseData = data;
+      (FriendRequestResponseModel data) async {
+        ToastService().s(data.data ?? "Sucess!");
+        friendRequestResponseModel = data;
         update();
       },
     );
     setLoading(false);
   }
 
-  KButton checkStatus(String status, String userid, String? userName,String? userImage) {
-    if (followResponseData?.status == "unknown") {
+  deleteSentRequest(String singleUserId) async {
+    setLoading(true);
+    var result = await singleUserRepo.deleteSentRequest(singleUserId);
+    result.fold(
+      (NetworkFailure error) {
+        if (error.message?.isNotEmpty == true) {
+          ToastService().e(error.message ?? '');
+        } else {
+          ToastService().e("An unknown error occurred");
+        }
+      },
+      (FriendRequestResponseModel data) async {
+        ToastService().s(data.data ?? "Deleted sucessfully!");
+        friendRequestResponseModel = data;
+        update();
+      },
+    );
+    setLoading(false);
+  }
+
+  rejectRequest(String singleUserId) async {
+    setLoading(true);
+    var result = await singleUserRepo.rejectRequest(singleUserId);
+    result.fold(
+      (NetworkFailure error) {
+        if (error.message?.isNotEmpty == true) {
+          ToastService().e(error.message ?? '');
+        } else {
+          ToastService().e("An unknown error occurred");
+        }
+      },
+      (FriendRequestResponseModel data) async {
+        ToastService().s(data.data ?? "Deleted sucessfully!");
+        friendRequestResponseModel = data;
+        update();
+      },
+    );
+    setLoading(false);
+  }
+
+  KButton checkStatus(
+      String status, String userid, String? userName, String? userImage) {
+    if (checkFriendResponseModel?.areFriends == true) {
       return KButton(
-        child: const Text("Follow"),
-        onPressed: () async {
-          await followUser(userid);
-          await checkFollow(userid);
-        },
-      );
-    }
-    if (followResponseData?.status == "friends") {
-      return KButton(
+        isBusy: isLoading,
         child: const Text("Message"),
         onPressed: () {
           Get.toNamed(
             '/single-chat',
-            arguments: {'userId': userid, 'username': userName,"userImage":userImage},
+            arguments: {
+              'userId': userid,
+              'username': userName,
+              'userImage': userImage,
+            },
           );
         },
       );
     }
 
-    if (followResponseData?.status == "only_me") {
+    if (checkFriendResponseModel?.areFriends == false &&
+        checkFriendResponseModel?.friendshipStatus == "nothing") {
       return KButton(
-        child: const Text("Un-Follow"),
+        isBusy: isLoading,
+        child: const Text("Add friend"),
         onPressed: () async {
-          await unFollowUser(userid);
-          await checkFollow(userid);
+          await addUser(userid);
+          await checkIsFriend(userid);
         },
       );
     }
-    if (followResponseData?.status == "only_them") {
+
+    if (checkFriendResponseModel?.friendshipStatus == "pending") {
       return KButton(
-        child: const Text("Follow back"),
+        isBusy: isLoading,
+        child: const Text("Cancel request"),
         onPressed: () async {
-          await followUser(userid);
-          await checkFollow(userid);
+          await deleteSentRequest(userid);
+          await checkIsFriend(userid);
         },
       );
     }
-    return KButton(child: const Text("Go back"), onPressed: () {});
+
+    if (checkFriendResponseModel?.friendshipStatus == "to_be_accepted") {
+      return KButton(
+        isBusy: isLoading,
+        child: const Text("Confirm"),
+        onPressed: () async {
+          await acceptUser(userid);
+          await checkIsFriend(userid);
+        },
+      );
+    }
+
+    return KButton(
+        isBusy: isLoading, child: const Text("Go back"), onPressed: () {});
   }
 }

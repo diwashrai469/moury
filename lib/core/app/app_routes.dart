@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:moury/modules/features/auth/signup/view/signup_view.dart';
-import 'package:moury/modules/features/auth/signup/view/widgets/onbarding_signup_view.dart';
+import 'package:moury/modules/features/auth/register/view/register_view.dart';
+import 'package:moury/modules/features/auth/register/view/widgets/onbarding_register_view.dart';
 import 'package:moury/modules/features/buzz/buzz_feed/view/widgets/add_buzz_feed_view.dart';
 import 'package:moury/modules/features/community_collection/my_community/view/my_community_view.dart';
 import 'package:moury/modules/features/community_collection/single_community_chat/view/single_community_chat_view.dart';
@@ -15,7 +15,6 @@ import '../../modules/features/community_collection/single_community/view/single
 import '../../modules/features/dashboard/view/dashboard_view.dart';
 import '../../modules/features/explore/view/explore_view.dart';
 import '../../modules/features/auth/login/view/login_view.dart';
-import '../../modules/features/auth/register/view/register_view.dart';
 import '../../modules/features/profile/user_profile/view/user_profile_view.dart';
 
 class AppRoutes {
@@ -35,12 +34,11 @@ class AppRoutes {
     GetPage(
         name: '/single-community-chat', page: () => const SingleCommunityChatView()),
     GetPage(name: '/all-community', page: () => const AllCommunityView()),
-    // GetPage(name: '/chat', page: () => const ChatView()),
     GetPage(
         name: '/single-user-profile',
         page: () => const SingleUserProfileView()),
     GetPage(name: '/add-buzz-feed', page: () => const AddBuzzFeedView()),
-    GetPage(name: '/signup', page: () => const SignupView()),
+    GetPage(name: '/signup', page: () => const RegisterView()),
     GetPage(name: '/ask-user-fullname', page: () => const AskUserFullName()),
     GetPage(name: '/ask-user-name', page: () => const AskUserName()),
     GetPage(name: '/ask-user-password', page: () => const AskUserPassword()),

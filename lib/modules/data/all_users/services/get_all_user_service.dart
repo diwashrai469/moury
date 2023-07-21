@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:moury/modules/data/all_users/model/all_users_response_model.dart';
 import 'package:moury/modules/data/all_users/model/follow_response_model.dart';
+import 'package:moury/modules/data/all_users/model/my_friends_response_model.dart';
 import 'package:moury/modules/data/all_users/model/send_friend_request_response_model.dart';
 import '../../../../core/services/intercepters.dart';
+import '../model/friend_request_response_model.dart';
 
 class GetAllFriendServices {
   Future<AllUsersResponseModel> getAllUsers() async {
@@ -12,6 +14,15 @@ class GetAllFriendServices {
       "profile",
     );
     return AllUsersResponseModel.fromJson(response.data);
+  }
+
+  Future<MyFriendsResponseModel> myFriends() async {
+    Dio dio = getDioInstance();
+
+    final response = await dio.get(
+      "friendship/friends",
+    );
+    return MyFriendsResponseModel.fromJson(response.data);
   }
 
   Future<SendFriendResonseModel> sendFriendRequest(
@@ -32,28 +43,46 @@ class GetAllFriendServices {
     return AllUsersResponseModel.fromJson(response.data);
   }
 
-  Future<FollowResponseModel> checkFollow(String userId) async {
+  Future<CheckFriendResponseModel> checkIsFriend(String userId) async {
     Dio dio = getDioInstance();
 
     final response = await dio.get(
-      "follow/check/$userId",
+      "friendship/with/$userId",
     );
-    return FollowResponseModel.fromJson(response.data);
+    return CheckFriendResponseModel.fromJson(response.data);
   }
 
-  Future<FollowResponseModel> followUser(String userId) async {
+  Future<FriendRequestResponseModel> addUser(String userId) async {
     Dio dio = getDioInstance();
 
-    final response = await dio.post("follow", data: {"user_id": userId});
-    return FollowResponseModel.fromJson(response.data);
+    final response =
+        await dio.post("friendship/requests/send", data: {"to": userId});
+    return FriendRequestResponseModel.fromJson(response.data);
   }
 
-  Future<FollowResponseModel> unFollowUser(String userId) async {
+  Future<FriendRequestResponseModel> acceptUser(String userId) async {
+    Dio dio = getDioInstance();
+
+    final response =
+        await dio.post("friendship/requests/accept", data: {"from": userId});
+    return FriendRequestResponseModel.fromJson(response.data);
+  }
+
+  Future<FriendRequestResponseModel> deleteSentRequest(String userId) async {
     Dio dio = getDioInstance();
 
     final response = await dio.delete(
-      "follow/$userId",
+      "friendship/requests/deleteSent/$userId",
     );
-    return FollowResponseModel.fromJson(response.data);
+    return FriendRequestResponseModel.fromJson(response.data);
+  }
+
+  Future<FriendRequestResponseModel> rejectRequest(String userId) async {
+    Dio dio = getDioInstance();
+
+    final response = await dio.delete(
+      "friendship/requests/reject/$userId",
+    );
+    return FriendRequestResponseModel.fromJson(response.data);
   }
 }

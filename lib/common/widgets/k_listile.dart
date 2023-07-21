@@ -8,7 +8,11 @@ class KListtile extends StatelessWidget {
   final void Function()? onKeyPressed;
 
   const KListtile(
-      {super.key, this.icon,this.subtitile, required this.text, this.onKeyPressed});
+      {super.key,
+      this.icon,
+      this.subtitile,
+      required this.text,
+      this.onKeyPressed});
 
   @override
   Widget build(BuildContext context) {

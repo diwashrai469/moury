@@ -13,6 +13,7 @@ void main() async {
   enableFirestorePersistence();
   await Firebase.initializeApp();
   await LocalStorageService.init();
+
   runApp(const Moury());
 }
 

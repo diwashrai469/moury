@@ -19,7 +19,6 @@ class BuzzFeedView extends StatelessWidget {
       },
       builder: (controller) {
         return Scaffold(
-          backgroundColor: secondaryColor,
           body: SafeArea(
               child: Padding(
             padding: AppDimens.mainPagePadding,
@@ -138,7 +137,15 @@ class BuzzFeedView extends StatelessWidget {
                                   ],
                                 ),
                                 mHeightSpan,
-                                Text(buzzIndex?.caption ?? ''),
+                                Text(
+                                  buzzIndex?.caption ?? '',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          fontSize: AppDimens.subFontSize,
+                                          fontWeight: FontWeight.normal),
+                                ),
                                 mHeightSpan,
                                 Row(
                                   children: [

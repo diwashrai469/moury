@@ -25,7 +25,6 @@ class ExploreView extends StatelessWidget {
     final exploreData = Get.put(ExploreViewModel());
 
     return Scaffold(
-      backgroundColor: secondaryColor,
       body: SafeArea(
         child: GetBuilder<ExploreViewModel>(
           initState: (state) {

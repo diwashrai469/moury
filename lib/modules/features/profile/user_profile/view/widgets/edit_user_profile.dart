@@ -7,7 +7,6 @@ import 'package:moury/common/widgets/k_container_for_bottom_sheet.dart';
 import 'package:moury/common/widgets/k_listile.dart';
 import 'package:moury/common/widgets/k_textformfield.dart';
 import 'package:moury/modules/features/profile/user_profile/view_models/user_profile_view_model.dart';
-import 'package:moury/theme/app_theme.dart';
 
 class EditUserProfileView extends StatefulWidget {
   const EditUserProfileView({Key? key}) : super(key: key);
@@ -74,7 +73,6 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
       nameController.text = userConfigData?.name ?? '';
 
       return Scaffold(
-        backgroundColor: secondaryColor,
         appBar: AppBar(
           title: Text(
             "Edit profile",

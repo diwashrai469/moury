@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moury/common/constant/ui_helpers.dart';
@@ -20,7 +19,6 @@ class CreateCommunityView extends StatelessWidget {
 
     return GetBuilder<MyCommunityViewModel>(builder: (controller) {
       return Scaffold(
-        backgroundColor: secondaryColor,
         appBar: AppBar(
           elevation: 0,
           title: Text(

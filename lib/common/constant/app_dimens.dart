@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class AppDimens {
   static const mainPagePadding = EdgeInsets.only(
-    right: 8,
-    left: 8,
+    right: 15,
+    left: 15,
     top: 10,
   );
   static const secondaryPagePaading =

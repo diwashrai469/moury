@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:moury/common/constant/app_dimens.dart';
 import 'package:moury/common/constant/ui_helpers.dart';
 import 'package:moury/common/widgets/k_dialog.dart';
@@ -7,6 +8,8 @@ import 'package:moury/common/widgets/k_photo_preview.dart';
 import 'package:moury/core/services/local_storage.dart';
 import 'package:moury/modules/features/profile/user_profile/view_models/user_profile_view_model.dart';
 import 'package:moury/theme/app_theme.dart';
+
+import '../../../../../core/services/push_notification.dart';
 
 class UserProfileView extends StatefulWidget {
   const UserProfileView({super.key});
@@ -23,7 +26,6 @@ class _UserProfileViewState extends State<UserProfileView> {
       builder: (controller) {
         final userConfigData = controller.userConfigData?.data;
         return Scaffold(
-          backgroundColor: secondaryColor,
           body: SafeArea(
             child: controller.isLoading
                 ? const Center(
@@ -67,6 +69,17 @@ class _UserProfileViewState extends State<UserProfileView> {
                                     message:
                                         "Are you sure you want to leave this group?",
                                     onKeyPressed: () async {
+                                      String? accessToken =
+                                          LocalStorageService().read(
+                                              LocalStorageKeys.accessToken);
+                                      final decodedToken = JwtDecoder.decode(
+                                          accessToken.toString());
+                                      PushNotificationService().unsubscribe(
+                                        [
+                                          "${decodedToken["_id"]}_PRIVATE_CHAT",
+                                          "PRIVATE_CHAT"
+                                        ],
+                                      );
                                       LocalStorageService()
                                           .clear(LocalStorageKeys.accessToken);
                                       Get.offAllNamed('/login');

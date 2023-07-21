@@ -8,7 +8,7 @@ import 'package:moury/common/widgets/k_button.dart';
 import 'package:moury/common/widgets/k_textformfield.dart';
 
 import '../../../../../../theme/app_theme.dart';
-import '../../../register/view_models/register_view_models.dart';
+import '../../view_model/register_view_model.dart';
 
 AppBar appbar = AppBar(
   backgroundColor: Colors.transparent,

@@ -15,7 +15,6 @@ class MyCommunityView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: secondaryColor,
       body: SafeArea(
         child: GetBuilder<MyCommunityViewModel>(
           init: MyCommunityViewModel(),

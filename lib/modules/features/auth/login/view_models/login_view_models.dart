@@ -7,16 +7,6 @@ import '../../../../data/base_model/base_model.dart';
 import '../../../../data/login/repository/login_repository.dart';
 
 class LoginViewModel extends BaseModel {
-  // String? id;
-  // String? name;
-  // LoginViewModel({this.id, this.name});
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   demo(id.toString());
-  // }
-  //  void demo(String string) {}
 
   String? userNameValidator(String? username) {
     if (username == null || username.isEmpty) {

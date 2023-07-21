@@ -12,7 +12,6 @@ class AllCommunityView extends StatelessWidget {
   Widget build(BuildContext context) {
     final communityModel = Get.put(AllCommunityViewModel());
     return Scaffold(
-      backgroundColor: secondaryColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -55,8 +54,7 @@ class AllCommunityView extends StatelessWidget {
 
                             return InkWell(
                               onTap: () {
-                                print(
-                                    "from allcommunity ${getCommunityList?.sId ?? ''}");
+                             
                                 Get.toNamed(
                                   "/single-community",
                                   arguments: {
