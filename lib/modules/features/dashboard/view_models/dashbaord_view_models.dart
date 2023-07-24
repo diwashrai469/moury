@@ -50,9 +50,14 @@ class DashboardViewModel extends BaseModel {
           tempList.add(PrivateChatListResponseModel.fromJson(doc.data()));
         }
         privateChatList.assignAll(tempList);
+        int newMessages = 0;
         for (var data in privateChatList) {
           hasNewMessage.value = data.seen_actual ?? false;
+          if (data.seen_actual == false) {
+            newMessages++;
+          }
         }
+        hasNewMessage.value = newMessages > 0;
 
         update();
       },

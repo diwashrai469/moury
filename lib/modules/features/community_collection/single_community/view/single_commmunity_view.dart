@@ -212,7 +212,7 @@ class _SingleCommunityViewState extends State<SingleCommunityView> {
                       child: Hero(
                         tag: communityTitle,
                         child: CircleAvatar(
-                          backgroundColor: Colors.grey,
+                           backgroundColor: avatarBackgroundColor,
                           radius: 50,
                           child: Text(
                             communityTitle[0],

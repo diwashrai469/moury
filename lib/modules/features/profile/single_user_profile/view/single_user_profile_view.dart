@@ -16,6 +16,11 @@ class SingleUserProfileView extends StatelessWidget {
     final Map<String, dynamic> args = Get.arguments;
 
     final String userId = args['userId'];
+    final VoidCallback? myFriendListRefresh = args['myFriendListRefresh'];
+    final VoidCallback? userRequestSendListRefresh =
+        args['userRequestSendListRefresh'];
+    final VoidCallback? useRequestReceivedListRefresh =
+        args['useRequestReceivedListRefresh'];
 
     return GetBuilder<SingleUserProfileViewModel>(
       init: SingleUserProfileViewModel(userId: userId),
@@ -138,6 +143,7 @@ class SingleUserProfileView extends StatelessWidget {
                                     onPressed: () async {
                                       await controller.rejectRequest(userId);
                                       await controller.checkIsFriend(userId);
+                                      // myFriendListRefresh!();
                                     },
                                   ),
                                 ),

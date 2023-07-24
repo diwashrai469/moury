@@ -47,11 +47,14 @@ const containerColor = Color.fromARGB(255, 234, 238, 243);
 
 abstract class AppThemes {
   static ThemeData light = ThemeData.light().copyWith(
+  
     primaryColor: primaryColor,
     errorColor: errorColor,
     textSelectionTheme: ThemeData.light().textSelectionTheme.copyWith(
           cursorColor: cursorColor,
+        
         ),
+      
     textTheme: ThemeData.light()
         .textTheme
         .apply(
@@ -78,6 +81,7 @@ abstract class AppThemes {
 
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: secondaryColor,
+    
     cardTheme: ThemeData.light().cardTheme.copyWith(
         margin: const EdgeInsets.symmetric(vertical: 4),
         shape: OutlineInputBorder(

@@ -89,12 +89,14 @@ class BuzzFeedView extends StatelessWidget {
                                             buzzIndex?.userId?.profilePicture ==
                                                 null
                                         ? CircleAvatar(
+                                           backgroundColor: avatarBackgroundColor,
                                             radius: 20,
                                             child: Text(
                                                 buzzIndex?.userId?.name?[0] ??
                                                     'N/a'),
                                           )
                                         : CircleAvatar(
+                                           backgroundColor: avatarBackgroundColor,
                                             radius: 20,
                                             backgroundImage: NetworkImage(
                                                 buzzIndex?.userId

@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:moury/modules/data/all_users/model/all_users_response_model.dart';
 import 'package:moury/modules/data/all_users/model/follow_response_model.dart';
 import 'package:moury/modules/data/all_users/model/friend_request_response_model.dart';
+import 'package:moury/modules/data/all_users/model/get_received_request_response_model.dart';
+import 'package:moury/modules/data/all_users/model/get_request_response_model.dart';
 import 'package:moury/modules/data/all_users/model/my_friends_response_model.dart';
 import 'package:moury/modules/data/all_users/model/send_friend_request_response_model.dart';
 
@@ -10,7 +12,10 @@ import '../services/get_all_user_service.dart';
 
 abstract class IGetAllUsersRepository {
   Future<Either<NetworkFailure, AllUsersResponseModel>> getAllUser();
-   Future<Either<NetworkFailure, MyFriendsResponseModel>> myFriends();
+  Future<Either<NetworkFailure, MyFriendsResponseModel>> myFriends();
+  Future<Either<NetworkFailure, GetRequestResponseModel>> getRequest();
+  Future<Either<NetworkFailure, GetReceivedRequestResponseModel>>
+      getReceivedRequest();
   Future<Either<NetworkFailure, AllUsersResponseModel>> getSingleUser(
       String userid);
   Future<Either<NetworkFailure, SendFriendResonseModel>> sendFriendRequest(
@@ -38,7 +43,8 @@ class GetAllUserRepository extends IGetAllUsersRepository {
       return Left(e);
     }
   }
-    @override
+
+  @override
   Future<Either<NetworkFailure, MyFriendsResponseModel>> myFriends() async {
     try {
       var result = await GetAllFriendServices().myFriends();
@@ -127,6 +133,29 @@ class GetAllUserRepository extends IGetAllUsersRepository {
       String userid) async {
     try {
       var result = await GetAllFriendServices().rejectRequest(userid);
+
+      return Right(result);
+    } on NetworkFailure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<NetworkFailure, GetRequestResponseModel>> getRequest() async {
+    try {
+      var result = await GetAllFriendServices().getRequest();
+
+      return Right(result);
+    } on NetworkFailure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<NetworkFailure, GetReceivedRequestResponseModel>>
+      getReceivedRequest() async {
+    try {
+      var result = await GetAllFriendServices().getReceivedRequest();
 
       return Right(result);
     } on NetworkFailure catch (e) {

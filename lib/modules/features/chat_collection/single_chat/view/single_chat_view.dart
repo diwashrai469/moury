@@ -18,45 +18,31 @@ class SingleChatView extends StatefulWidget {
   State<SingleChatView> createState() => _SingleChatViewState();
 }
 
-class _SingleChatViewState extends State<SingleChatView>
-    with SingleTickerProviderStateMixin {
-  // late AnimationController _animationController;
-  // late Animation<double> _animation;
-  // int difference = -1000;
-  // String timeanddate = '';
-  // bool istyping = false;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _animationController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 500),
-  //   );
-
-  //   _animation = Tween<double>(begin: 0, end: 1).animate(
-  //     CurvedAnimation(
-  //       parent: _animationController,
-  //       curve: Curves.elasticOut, // You can adjust the curve as desired
-  //     ),
-  //   );
-  // }
+class _SingleChatViewState extends State<SingleChatView> {
+  final chatViewModel = Get.put(SingleChatViewModel());
+  final Map<String, dynamic> args = Get.arguments;
+  late final String userId;
+  late final String name;
+  late final String? userImage;
+  @override
+  void initState() {
+    userId = args['userId'];
+    name = args['username'];
+    userImage = args['userImage'];
+    chatViewModel.clearChatList();
+    chatViewModel.getPrivateChats(userId);
+    chatViewModel.getPrivateChatList(userId);
+    super.initState();
+  }
 
   @override
   void dispose() {
-    Get.delete<SingleChatViewModel>();
+    chatViewModel.chatSubscription?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final chatViewModel = Get.put(SingleChatViewModel());
-
-    final Map<String, dynamic> args = Get.arguments;
-    final String userId = args['userId'];
-    final String name = args['username'];
-    final String? userImage = args['userImage'];
-
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -78,6 +64,7 @@ class _SingleChatViewState extends State<SingleChatView>
                     ),
                   )
                 : CircleAvatar(
+                    backgroundColor: avatarBackgroundColor,
                     radius: AppDimens.sssCircleAvatarRadius,
                     backgroundImage: NetworkImage(userImage ?? '')),
             title: Text(
@@ -110,11 +97,6 @@ class _SingleChatViewState extends State<SingleChatView>
             ),
           )),
       body: GetBuilder<SingleChatViewModel>(
-        initState: (state) {
-          chatViewModel.clearChatList();
-          chatViewModel.getPrivateChats(userId);
-          chatViewModel.getPrivateChatList(userId);
-        },
         builder: (controller) {
           return Padding(
             padding: AppDimens.mainPagePadding,
@@ -176,6 +158,8 @@ class _SingleChatViewState extends State<SingleChatView>
                                                   ),
                                                 )
                                               : CircleAvatar(
+                                                  backgroundColor:
+                                                      avatarBackgroundColor,
                                                   radius: AppDimens
                                                       .ssCircleAvatarRadius,
                                                   backgroundImage:
@@ -277,8 +261,9 @@ class _SingleChatViewState extends State<SingleChatView>
                                 ),
                               )
                             : CircleAvatar(
+                                backgroundColor: avatarBackgroundColor,
                                 radius: 8,
-                                backgroundImage: NetworkImage(userImage),
+                                backgroundImage: NetworkImage(userImage ?? ''),
                               )
                         : CircleAvatar(
                             backgroundColor: secondaryColor,

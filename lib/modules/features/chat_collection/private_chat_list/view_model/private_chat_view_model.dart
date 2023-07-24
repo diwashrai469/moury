@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:moury/modules/data/all_users/model/get_received_request_response_model.dart';
+import 'package:moury/modules/data/all_users/model/get_request_response_model.dart';
 import 'package:moury/modules/data/all_users/model/my_friends_response_model.dart';
 import 'package:moury/modules/data/all_users/repository/get_all_user_repository.dart';
 import 'package:moury/modules/data/base_model/base_model.dart';
@@ -16,6 +18,8 @@ class PrivateChatViewModel extends BaseModel {
     update();
     super.onInit();
     getMyFriends();
+    getRequest();
+    getReceivedRequest();
   }
 
   final firestoreInstance = FirebaseFirestore.instance;
@@ -27,6 +31,8 @@ class PrivateChatViewModel extends BaseModel {
 
   List<PrivateChatListResponseModel> chatList = [];
   MyFriendsResponseModel? myFriendsResponseModel;
+  GetRequestResponseModel? getRequestResponseModel;
+  GetReceivedRequestResponseModel? getReceivedRequestResponseModel;
 
   void onChangedFilter(String filter) {
     chatList = privateChatList.where((chatItem) {
@@ -72,22 +78,6 @@ class PrivateChatViewModel extends BaseModel {
     setLoading(false);
   }
 
-  // Future<void> updateDocument(String nextPartyid, String myUserId) async {
-  //   final firestore = FirebaseFirestore.instance;
-  //   final documentRef = firestore
-  //       .collection('privatechatslist')
-  //       .doc(nextPartyid)
-  //       .collection('chatlist')
-  //       .doc(myUserId);
-
-  //   try {
-  //     await documentRef.update({'seen': true});
-  //     print('Document successfully updated!');
-  //   } catch (error) {
-  //     print('Error updating document: $error');
-  //   }
-  // }
-
   void getMyFriends() async {
     setLoading(true);
 
@@ -102,6 +92,44 @@ class PrivateChatViewModel extends BaseModel {
       },
       (MyFriendsResponseModel data) {
         myFriendsResponseModel = data;
+      },
+    );
+    setLoading(false);
+  }
+
+  void getRequest() async {
+    setLoading(true);
+
+    var result = await allUsersRepository.getRequest();
+    result.fold(
+      (NetworkFailure error) {
+        if (error.message?.isNotEmpty == true) {
+          ToastService().e(error.message ?? '');
+        } else {
+          ToastService().e("An unknown error occurred");
+        }
+      },
+      (GetRequestResponseModel data) {
+        getRequestResponseModel = data;
+      },
+    );
+    setLoading(false);
+  }
+
+  void getReceivedRequest() async {
+    setLoading(true);
+
+    var result = await allUsersRepository.getReceivedRequest();
+    result.fold(
+      (NetworkFailure error) {
+        if (error.message?.isNotEmpty == true) {
+          ToastService().e(error.message ?? '');
+        } else {
+          ToastService().e("An unknown error occurred");
+        }
+      },
+      (GetReceivedRequestResponseModel data) {
+        getReceivedRequestResponseModel = data;
       },
     );
     setLoading(false);

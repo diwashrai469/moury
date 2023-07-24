@@ -75,7 +75,7 @@ class _SingleChatMessageBoxState extends State<SingleChatMessageBox> {
                 width: 45,
                 child: FloatingActionButton(
                   onPressed: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
+                    
                     if (sendTextEditingController.text.isNotEmpty) {
                       widget.controller.sendMessage(
                           id: widget.userId,

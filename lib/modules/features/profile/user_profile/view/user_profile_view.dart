@@ -159,6 +159,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                                       true ||
                                   userConfigData?.profilePicture == null
                               ? CircleAvatar(
+                                 backgroundColor: avatarBackgroundColor,
                                   radius: 50,
                                   child:
                                       Text(userConfigData?.username?[0] ?? ''),
@@ -171,6 +172,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                                                 ''),
                                   ),
                                   child: CircleAvatar(
+                                     backgroundColor: avatarBackgroundColor,
                                     radius: 50,
                                     backgroundImage: NetworkImage(
                                         userConfigData!.profilePicture ??

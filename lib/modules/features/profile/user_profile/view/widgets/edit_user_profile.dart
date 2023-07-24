@@ -8,6 +8,8 @@ import 'package:moury/common/widgets/k_listile.dart';
 import 'package:moury/common/widgets/k_textformfield.dart';
 import 'package:moury/modules/features/profile/user_profile/view_models/user_profile_view_model.dart';
 
+import '../../../../../../theme/app_theme.dart';
+
 class EditUserProfileView extends StatefulWidget {
   const EditUserProfileView({Key? key}) : super(key: key);
 
@@ -85,10 +87,8 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
               padding: const EdgeInsets.only(right: 40.0, top: 20),
               child: InkWell(
                 onTap: () async {
-                  if (controller.uploadedImageUrl.isNotEmpty) {
-                    await controller.editUser(controller.uploadedImageUrl,
-                        username: nameController.text);
-                  }
+                  await controller.editUser(controller.uploadedImageUrl,
+                      username: nameController.text);
 
                   await controller.getUserConfig();
                   Get.back();
@@ -110,11 +110,21 @@ class _EditUserProfileViewState extends State<EditUserProfileView> {
                 children: [
                   InkWell(
                     onTap: () {},
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundImage:
-                          NetworkImage(userConfigData!.profilePicture ?? 'N/a'),
-                    ),
+                    child: controller.isLoading == true
+                        ? const CircleAvatar(
+                            backgroundColor: avatarBackgroundColor,
+                            radius: 45,
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundColor: avatarBackgroundColor,
+                            radius: 45,
+                            backgroundImage: NetworkImage(
+                                userConfigData!.profilePicture ?? 'N/a'),
+                          ),
                   ),
                   Positioned(
                       bottom: 2,

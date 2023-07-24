@@ -6,6 +6,7 @@ import 'package:moury/modules/features/congfig/view_model/config_view_model.dart
 import 'package:moury/theme/app_theme.dart';
 import 'package:oktoast/oktoast.dart';
 import 'core/app/app_routes.dart';
+import 'core/services/life_cycle_manager.dart';
 import 'core/services/local_storage.dart';
 
 void main() async {
@@ -13,6 +14,7 @@ void main() async {
   enableFirestorePersistence();
   await Firebase.initializeApp();
   await LocalStorageService.init();
+  Get.put(LifeCycleManager());
 
   runApp(const Moury());
 }

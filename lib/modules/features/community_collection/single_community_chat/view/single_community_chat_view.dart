@@ -31,7 +31,6 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
     final Map<String, dynamic> args = Get.arguments;
     final String communityId = args['communityId'];
     final String name = args['username'];
-    final int communityMembers = args['communityMembers'];
     final VoidCallback? refreshMyCommunity = args['refreshMyCommunity'];
     final bool? isFromCommunityView = args['isFromCommunityView'];
 
@@ -161,7 +160,7 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
                     ),
               ),
               subtitle: Text(
-                "$communityMembers Members",
+                "0 Members",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: AppDimens.subsubFontSize,
                       color: disabledColor,
@@ -223,6 +222,7 @@ class _SingleChatViewState extends State<SingleCommunityChatView> {
                                     ),
                                   )
                                 : CircleAvatar(
+                                   backgroundColor: avatarBackgroundColor,
                                     radius: AppDimens.sCircleAvatarRadius,
                                     backgroundImage: NetworkImage(chatItem
                                             .senderDetails

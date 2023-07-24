@@ -7,6 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:moury/modules/data/user_config/models/user_config_response_models.dart';
 import 'package:moury/modules/data/user_config/respository/user_config_repository.dart';
+import 'package:moury/theme/app_theme.dart';
 import '../../../../../core/services/network_services.dart';
 import '../../../../../core/services/toast_services.dart';
 import '../../../../data/base_model/base_model.dart';
@@ -45,6 +46,8 @@ class UserProfileviewModel extends BaseModel {
             await uploadTask.then((res) async {
               uploadedImageUrl = await res.ref.getDownloadURL();
               await editUser(uploadedImageUrl, username: name);
+              await getUserConfig();
+
               update();
             });
           } else {
@@ -52,7 +55,6 @@ class UserProfileviewModel extends BaseModel {
               'Please select an image first',
             );
           }
-          await getUserConfig();
 
           update();
         }
@@ -74,13 +76,15 @@ class UserProfileviewModel extends BaseModel {
                 CropAspectRatioPreset.square,
               ]
             : [CropAspectRatioPreset.square],
+            
         uiSettings: [
           IOSUiSettings(
             title: 'Crop your image',
           ),
           AndroidUiSettings(
+
             toolbarTitle: 'Crop your image',
-            toolbarColor: Colors.deepOrange,
+            toolbarColor: secondaryColor,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
@@ -111,8 +115,11 @@ class UserProfileviewModel extends BaseModel {
   // }
 
   Future<void> editUser(String profilePicture, {String? username}) async {
+    setLoading(true);
     var result = await userRepository.editUserProfile(
-        profilePicture: profilePicture, username: username);
+      profilePicture: profilePicture,
+      username: username,
+    );
     result.fold(
       (NetworkFailure error) {
         if (error.message?.isNotEmpty == true) {
@@ -122,12 +129,14 @@ class UserProfileviewModel extends BaseModel {
         }
       },
       (UserEditResponseModel data) async {
-        ToastService().s("User profile updated sucessfully!");
+        ToastService().s("User profile updated successfully!");
       },
     );
+    setLoading(false);
   }
 
   Future<void> getUserConfig() async {
+    print("user edit called");
     setLoading(true);
 
     var result = await userConfigRepository.getUserConfig();

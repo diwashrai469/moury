@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:moury/modules/data/all_users/model/all_users_response_model.dart';
 import 'package:moury/modules/data/all_users/model/follow_response_model.dart';
+import 'package:moury/modules/data/all_users/model/get_received_request_response_model.dart';
+import 'package:moury/modules/data/all_users/model/get_request_response_model.dart';
 import 'package:moury/modules/data/all_users/model/my_friends_response_model.dart';
 import 'package:moury/modules/data/all_users/model/send_friend_request_response_model.dart';
 import '../../../../core/services/intercepters.dart';
@@ -84,5 +86,23 @@ class GetAllFriendServices {
       "friendship/requests/reject/$userId",
     );
     return FriendRequestResponseModel.fromJson(response.data);
+  }
+
+  Future<GetRequestResponseModel> getRequest() async {
+    Dio dio = getDioInstance();
+
+    final response = await dio.get(
+      "friendship/requests/sent",
+    );
+    return GetRequestResponseModel.fromJson(response.data);
+  }
+
+  Future<GetReceivedRequestResponseModel> getReceivedRequest() async {
+    Dio dio = getDioInstance();
+
+    final response = await dio.get(
+      "friendship/requests/received",
+    );
+    return GetReceivedRequestResponseModel.fromJson(response.data);
   }
 }

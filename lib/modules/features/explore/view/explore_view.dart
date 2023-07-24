@@ -303,6 +303,8 @@ class ExploreView extends StatelessWidget {
                                             ),
                                           )
                                         : CircleAvatar(
+                                            backgroundColor:
+                                                avatarBackgroundColor,
                                             radius:
                                                 AppDimens.lCircleAvatarRadius,
                                             backgroundImage: NetworkImage(
@@ -311,7 +313,7 @@ class ExploreView extends StatelessWidget {
                                           ),
                                   ),
                                   title: Text(
-                                    suggestFriend?.name ?? 'N/a',
+                                    suggestFriend?.username ?? 'N/a',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -321,7 +323,7 @@ class ExploreView extends StatelessWidget {
                                                 AppDimens.globaleFontSize),
                                   ),
                                   subtitle: Text(
-                                    "${suggestFriend?.followers.toString()} followers",
+                                    "Level: ${suggestFriend?.level.toString()} • Followers: ${suggestFriend?.followers.toString()}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -331,7 +333,7 @@ class ExploreView extends StatelessWidget {
                                             fontWeight: FontWeight.normal),
                                   ),
                                   trailing: const CircleAvatar(
-                                    backgroundColor: Colors.grey,
+                                    backgroundColor: avatarBackgroundColor,
                                     child: Icon(
                                       CupertinoIcons.person_alt_circle_fill,
                                       color: Colors.white,

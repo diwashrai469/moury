@@ -6,6 +6,7 @@ import 'package:moury/common/constant/date_time.dart';
 import 'package:moury/common/constant/ui_helpers.dart';
 import 'package:moury/common/widgets/k_chat_simmer_effect.dart';
 import 'package:moury/common/widgets/k_textformfield.dart';
+import 'package:moury/modules/features/chat_collection/private_chat_list/view/widgets/friends_and_request.dart';
 import 'package:moury/modules/features/chat_collection/private_chat_list/view/widgets/my_friend_list_view.dart';
 import 'package:moury/theme/app_theme.dart';
 import '../view_model/private_chat_view_model.dart';
@@ -47,7 +48,7 @@ class PrivateChatListView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Get.to(const MyFriendListView());
+                            Get.to(const FriendsAndRequests());
                           },
                           child: const Icon(
                             CupertinoIcons.person_2_square_stack,
@@ -161,6 +162,8 @@ class PrivateChatListView extends StatelessWidget {
                                               ),
                                             )
                                           : CircleAvatar(
+                                              backgroundColor:
+                                                  avatarBackgroundColor,
                                               radius: AppDimens
                                                   .elCircleAvatarRadius,
                                               backgroundImage:
@@ -168,6 +171,7 @@ class PrivateChatListView extends StatelessWidget {
                                             ),
                                       subtitle: Text(
                                         overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                         message,
                                         style: Theme.of(context)
                                             .textTheme
@@ -206,12 +210,8 @@ class PrivateChatListView extends StatelessWidget {
                                                       controller.userId)
                                               ? userImage.isEmpty
                                                   ? CircleAvatar(
-                                                      backgroundImage:
-                                                          NetworkImage(
-                                                              userImage),
-                                                      radius: 10,
-                                                    )
-                                                  : CircleAvatar(
+                                                      backgroundColor:
+                                                          avatarBackgroundColor,
                                                       radius: 10,
                                                       child: Text(
                                                         name[0],
@@ -224,6 +224,14 @@ class PrivateChatListView extends StatelessWidget {
                                                                 fontSize: AppDimens
                                                                     .nameFontSize),
                                                       ),
+                                                    )
+                                                  : CircleAvatar(
+                                                      backgroundColor:
+                                                          avatarBackgroundColor,
+                                                      backgroundImage:
+                                                          NetworkImage(
+                                                              userImage),
+                                                      radius: 8,
                                                     )
                                               : const CircleAvatar(
                                                   radius: 10,

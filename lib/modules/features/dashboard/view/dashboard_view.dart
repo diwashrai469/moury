@@ -51,7 +51,7 @@ class DashboardView extends StatelessWidget {
                       CupertinoIcons.chat_bubble_text,
                       size: navIconSize,
                     ),
-                    if (changeIndex.hasNewMessage.value == false)
+                    if (changeIndex.hasNewMessage.value == true)
                       const Positioned(
                         left: 16,
                         child: CircleAvatar(

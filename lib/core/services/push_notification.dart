@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:moury/core/services/life_cycle_manager.dart';
 
 int notificationId = 0;
 const String groupKey = 'com.moury.app';
+bool isAppInForeground = false;
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print(message);
@@ -17,7 +19,11 @@ void serialiseAndNavigate(
 
   Get.toNamed(
     "/single-chat",
-    arguments: {"userId": data['user_id'], "username": "ram"},
+    arguments: {
+      "userId": data['user_id'],
+      "username": data['username'],
+      "userImage": data["profile_picture"] ?? ''
+    },
   );
 }
 
@@ -28,15 +34,10 @@ void showNotification(RemoteMessage message) async {
   var initializationSettingsAndroid =
       const AndroidInitializationSettings('@mipmap/moury');
 
-  var initializationSettingsIOS = IOSInitializationSettings(
+  var initializationSettingsIOS = const IOSInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
-    onDidReceiveLocalNotification: (id, title, body, payload) {
-      if (payload != null) {
-        serialiseAndNavigate(message);
-      }
-    },
   );
 
   var initializationSettings = InitializationSettings(
@@ -46,7 +47,6 @@ void showNotification(RemoteMessage message) async {
 
   final localNotifications = FlutterLocalNotificationsPlugin();
 
-// For group of notifications
   var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
     'Main Channel',
     'Main Channel',
@@ -75,7 +75,15 @@ void showNotification(RemoteMessage message) async {
     initializationSettings,
     onSelectNotification: (payload) async {
       if (payload != null) {
-        serialiseAndNavigate(message);
+        Map<String, dynamic> data = json.decode(payload);
+        Get.toNamed(
+          "/single-chat",
+          arguments: {
+            "userId": data['user_id'],
+            "username": data['username'],
+            "userImage": data["profile_picture"]
+          },
+        );
       }
     },
   );
@@ -94,7 +102,6 @@ void showNotification(RemoteMessage message) async {
   }
 }
 
-// For group of notifications
 void showSummaryNotification(
     FlutterLocalNotificationsPlugin localNotifications) async {
   var bigTextStyleInformation = const BigTextStyleInformation(
@@ -147,7 +154,22 @@ class PushNotificationService {
     }
 
     FirebaseMessaging.onMessage.listen((message) {
-      showNotification(message);
+      if (LifeCycleManager.to.isAppInForeground.value) {
+        // Do not show the notification
+      } else {
+        showNotification(message);
+      }
+    });
+
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      serialiseAndNavigate(initialMessage);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      serialiseAndNavigate(message);
     });
 
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -160,13 +182,13 @@ class PushNotificationService {
     return await messaging.getToken();
   }
 
-  unsubscribe(List<String> topics) {
+  void unsubscribe(List<String> topics) {
     for (var element in topics) {
       messaging.unsubscribeFromTopic(element);
     }
   }
 
-  Future delete() async {
+  Future<void> delete() async {
     await messaging.deleteToken();
   }
 }

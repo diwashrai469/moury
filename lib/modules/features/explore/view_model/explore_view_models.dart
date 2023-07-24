@@ -14,37 +14,34 @@ class ExploreViewModel extends BaseModel {
 
   AllCommunityResponseModel? getAllCommunityData;
 
-  
-    int counts(int indexs) {
-      if (indexs >= 8) {
-        return 8;
-      }
-      if (indexs < 8) {
-        return 7;
-      }
-      if (indexs < 7) {
-        return 6;
-      }
-      if (indexs < 6) {
-        return 5;
-      }
-      if (indexs < 5) {
-        return 4;
-      }
-      if (indexs < 4) {
-        return 3;
-      }
-      if (indexs < 3) {
-        return 2;
-      }
-      if (indexs < 2) {
-        return 1;
-      }
-
-      return 0;
+  int counts(int indexs) {
+    if (indexs >= 8) {
+      return 8;
+    }
+    if (indexs < 8) {
+      return 7;
+    }
+    if (indexs < 7) {
+      return 6;
+    }
+    if (indexs < 6) {
+      return 5;
+    }
+    if (indexs < 5) {
+      return 4;
+    }
+    if (indexs < 4) {
+      return 3;
+    }
+    if (indexs < 3) {
+      return 2;
+    }
+    if (indexs < 2) {
+      return 1;
     }
 
-
+    return 0;
+  }
 
   getAllCommunity() async {
     setLoading(true);
@@ -71,6 +68,7 @@ class ExploreViewModel extends BaseModel {
       ToastService().e(error.message ?? '');
     }, (ExploreResponseModel data) async {
       exploreResponseData = data;
+      print("exploredata:${exploreResponseData?.data?.first.name}");
       update();
     });
     setLoading(false);

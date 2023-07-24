@@ -27,12 +27,12 @@ class SingleChatViewModel extends BaseModel {
   Stream<List<PrivateChatListResponseModel>> get chatStream =>
       _chatListStreamController.stream;
 
-  @override
-  void onClose() {
-    print("dispose is called");
-    chatSubscription?.cancel();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   print("dispose is called");
+  //   chatSubscription?.cancel();
+  //   super.onClose();
+  // }
 
   void sendMessage({required String id, required String message}) async {
     var result = await chatRepository.sendMessage(id: id, message: message);
